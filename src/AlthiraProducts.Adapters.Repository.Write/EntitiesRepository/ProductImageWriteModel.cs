@@ -1,0 +1,53 @@
+﻿using AlthiraProducts.Adapters.Repository.Write.Enums;
+
+namespace AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
+
+public class ProductImageWriteModel: RetryPolicy<ImageStatus>
+{
+    public Guid Name { get; private set; }
+    public string ContentType { get; private set; } = null!;
+    public int Order { get; private set; }
+    public ProductWriteModel Product { get; private set; } = null!;
+    public Guid ProductId { get; private set; }
+    private ProductImageWriteModel() {}
+
+    public static ProductImageWriteModel Create(
+        Guid name,
+        string contentType,
+        int order,
+        Guid productId)
+    {
+        ProductImageWriteModel productImageWriteModel = new() 
+        {
+            Name = name,
+            ContentType = contentType,
+            Order = order,
+            ProductId = productId
+        };
+
+        productImageWriteModel.InitializeProcessable(ImageStatus.Pending);
+        return productImageWriteModel;
+    }
+
+    public void RegisterRetry(
+        string error,
+        TimeSpan initialDelay,
+        double backoffFactor)
+    {
+        RegisterRetry(
+            error,
+            initialDelay,
+            backoffFactor,
+            ImageStatus.Pending);
+    }
+
+    public void MarkAsProcessed()
+    {
+        MarkAsProcessed(ImageStatus.Processed);
+    }
+
+    public void MarkAsFailed(string error)
+    {
+        MarkAsFailed(error, ImageStatus.Failed);
+    }
+}
