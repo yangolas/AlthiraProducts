@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage.Ports.Extensions;
+﻿using AlthiraProducts.Products.Application.Ports.AzureBlobStorage;
 using Microsoft.Extensions.Logging;
 
 namespace AlthiraProducts.Adapters.AzureBlobStorage.Services.Extensions;

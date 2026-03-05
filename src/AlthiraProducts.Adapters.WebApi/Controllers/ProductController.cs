@@ -1,7 +1,7 @@
-﻿using AlthiraProducts.BuildingBlocks.Aplication.Pagination;
+﻿using AlthiraProducts.BuildingBlocks.Application.Models.Pagination;
 using AlthiraProducts.Products.Application.Commands;
-using AlthiraProducts.Products.Application.Dtos.RequestsApi;
-using AlthiraProducts.Products.Application.Dtos.ResponsesApi;
+using AlthiraProducts.Products.Application.Models.Dtos.RequestsApi;
+using AlthiraProducts.Products.Application.Models.Dtos.ResponsesApi;
 using AlthiraProducts.Products.Application.Querys;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

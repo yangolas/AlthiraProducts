@@ -1,4 +1,8 @@
-﻿using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.Adapters.Outbox.Settings;
+using AlthiraProducts.Adapters.Repository.Read.Settings;
+using AlthiraProducts.Adapters.Repository.Write.Settings;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
+using AlthiraProducts.Main.Settings.Models;
 
 public class AlthiraProductsSettings
 {
@@ -9,7 +13,6 @@ public class AlthiraProductsSettings
     public OutboxSettings Outbox { get; set; } = null!;
     public EventSettings Events { get; set; } = null!;
     public LogSettings Logs { get; set; } = null!;
-    public AuthenticationSettings Authentication { get; set; } = null!;
     public AssemblySettings Assembly { get; set; } = null!;
     public AzureBlobStorageSettings AzureBlobStorage { get; set; } = null!;
 }

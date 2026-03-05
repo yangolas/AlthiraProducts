@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
+﻿using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorageProcess.Ports;
-using AlthiraProducts.Adapters.OpenTelemetry.Ports;
+﻿using AlthiraProducts.BuildingBlocks.Application.Ports.AzureBlobSotageProcess;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 

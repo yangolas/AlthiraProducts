@@ -1,7 +1,10 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.Ports;
-using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.Diagnostic.Telemetry;
+using AlthiraProducts.BuildingBlocks.Application.EventModel;
+using AlthiraProducts.BuildingBlocks.Application.Ports.MessageBrokerConsumer;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -11,15 +14,23 @@ namespace AlthiraProducts.Adapters.MessageBroker.Consumer.Services;
 
 public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<TEvent> where TEvent : Event
 {
+    private readonly ILogger<ConsumerService<TEvent>> _logger;
+    private readonly IOpenTelemetryService _openTelemetryService;
     private readonly IMediator _mediator;
     public ConsumerService(
+        ILogger<ConsumerService<TEvent>> logger,
+        IOpenTelemetryService openTelemetryService,
         MessageBrokerSettings messageBrokerSettings,
         ChannelSettings channelSettings,
         IMediator mediator)
         : base(
+            logger,
+            openTelemetryService,
             messageBrokerSettings,
             channelSettings)
     {
+        _logger = logger;
+        _openTelemetryService = openTelemetryService;
         _mediator = mediator;
     }
 
@@ -36,6 +47,9 @@ public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<T
         TEventOut @event = JsonSerializer.Deserialize<TEventOut>(message)
            ?? throw new Exception("Error in the deserializer of specific event, check if template is type Event");
 
+        _openTelemetryService.AddConsumerBrokerMetadata(@event);
+        _openTelemetryService.AddStep($"Event base deserialized: {@event.EventName}");
+
         return @event;
     }
 
@@ -43,12 +57,17 @@ public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<T
     {
         IChannel channel = ((AsyncEventingBasicConsumer)sender).Channel;
 
+        _openTelemetryService.AddStep($"Message received from RabbitMQ: {@event.RoutingKey}");
         try
         {
             string message = Encoding.UTF8.GetString(@event.Body.Span);
+            _logger.LogInformation("Processing message from routing key: {RoutingKey}", @event.RoutingKey);
 
             TEvent eventBase = JsonSerializer.Deserialize<TEvent>(message)
                 ?? throw new Exception("Error in the deserializer of event base");
+            _openTelemetryService.AddStep($"Event base deserialized: {eventBase.EventName}");
+
+            _openTelemetryService.AddConsumerBrokerMetadata(eventBase);
 
             Type eventType = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
@@ -58,12 +77,17 @@ public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<T
             object specificEvent = JsonSerializer.Deserialize(message, eventType)
                 ?? throw new Exception("Specific event deserialization failed");
 
+            _openTelemetryService.AddStep($"Sending event to: {eventBase.EventName}Handler");
             await _mediator.Send((dynamic)specificEvent);
 
             await channel.BasicAckAsync(@event.DeliveryTag, multiple: false);
+            _logger.LogInformation("Message {EventName} processed and acknowledged", eventBase.EventName);
+            _openTelemetryService.AddStep("Message acknowledged successfully");
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Critical error processing Event {EventId}", @event.BasicProperties.MessageId ?? "Unknown");
+            _openTelemetryService.AddError(ex, $"Error processing Event {@event.BasicProperties.MessageId ?? "Unknown"}");
             await RequeueInRetryOrDeadLetterAsync(channel, @event);
         }
     }

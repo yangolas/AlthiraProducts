@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
+﻿using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
 
 namespace AlthiraProducts.Adapters.Outbox.Diagnostic.Telemetry;
 

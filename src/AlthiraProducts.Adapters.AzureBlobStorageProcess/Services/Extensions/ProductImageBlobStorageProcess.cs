@@ -1,11 +1,11 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage.Ports.Extensions;
-using AlthiraProducts.Adapters.AzureBlobStorageProcess.Diagnostic;
-using AlthiraProducts.Adapters.AzureBlobStorageProcess.Ports;
-using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
-using AlthiraProducts.Adapters.Repository.Write.Ports;
-using AlthiraProducts.Adapters.Repository.Write.Ports.Products;
-using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.Adapters.AzureBlobStorageProcess.Diagnostic;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.Products.Application.Ports.AzureBlobSotageProcess;
+using AlthiraProducts.Products.Application.Ports.AzureBlobStorage;
+using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -26,7 +26,7 @@ public class ProductImageBlobStorageProcess : AzureBlobStorageProcess, IProductI
     public ProductImageBlobStorageProcess(
         ILogger<ProductImageBlobStorageProcess> logger,
         IOpenTelemetryService openTelemetryService,
-        IOptions<AlthiraProductsSettings> appsettings,
+        IOptions<AzureBlobStorageSettings> azureBlobStorageSettings,
         IImageRepositoryWrite imageRepositoryWrite,
         IProductImageBlobStorageService productImageBlobStorageService,
         IUnitOfWork unitOfWork)
@@ -34,7 +34,7 @@ public class ProductImageBlobStorageProcess : AzureBlobStorageProcess, IProductI
     {
         _logger = logger;
         _openTelemetryService = openTelemetryService;
-        BlobContainerSettings blobcontainersettings = appsettings.Value.AzureBlobStorage.ProductImageBlobContainer;
+        BlobContainerSettings blobcontainersettings = azureBlobStorageSettings.Value.ProductImageBlobContainer;
         IntervalToPolling = blobcontainersettings.IntervalToPolling;
         _batchSize = blobcontainersettings.WorkerBatchSize;
         RetryPolicySettings retryPolicy = blobcontainersettings.RetryPolicy;

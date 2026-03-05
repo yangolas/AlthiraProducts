@@ -1,5 +1,6 @@
 ﻿using AlthiraProducts.Adapters.Repository.Write.Context;
-using AlthiraProducts.Main.Settings.Models;
+using AlthiraProducts.Adapters.Repository.Write.Settings;
+using AlthiraProducts.BuildingBlocks.Application.Ports.ServiceRegistration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +32,7 @@ public static class ServiceRegister
         serviceCollection.Scan(scan =>
             scan.FromAssemblies(assembly)
             .AddClasses(clases =>
-                clases.AssignableToAny(typeof(ITransientRepositoryWrite))
+                clases.AssignableToAny(typeof(ITransient))
             )
             .AsImplementedInterfaces()
             .WithTransientLifetime()

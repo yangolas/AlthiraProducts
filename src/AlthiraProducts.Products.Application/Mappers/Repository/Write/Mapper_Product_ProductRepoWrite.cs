@@ -1,5 +1,4 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
+﻿using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using AlthiraProducts.Products.Domain.Entities;
 
 namespace AlthiraProducts.Products.Application.Mappers.Repository.Write;

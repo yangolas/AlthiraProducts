@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Adapters.Repository.Read.Models;
+﻿using AlthiraProducts.BuildingBlocks.Application.EventModel;
+using AlthiraProducts.Products.Application.Models.Persistence.Read;
 
 namespace AlthiraProducts.Products.Application.Mappers.Repository.Read;
 

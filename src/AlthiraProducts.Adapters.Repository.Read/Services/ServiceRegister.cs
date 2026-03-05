@@ -1,6 +1,6 @@
 ﻿using AlthiraProducts.Adapters.Repository.Read.Context;
-using AlthiraProducts.Adapters.Repository.Read.Ports;
-using AlthiraProducts.Main.Settings.Models;
+using AlthiraProducts.Adapters.Repository.Read.Settings;
+using AlthiraProducts.BuildingBlocks.Application.Ports.ServiceRegistration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -23,7 +23,7 @@ public static class ServiceRegister
         serviceCollection.Scan(scan =>
             scan.FromAssemblies(assembly)
             .AddClasses(clases =>
-                clases.AssignableToAny(typeof(ITransientRepositoryRead))
+                clases.AssignableToAny(typeof(ITransient))
             )
             .AsImplementedInterfaces()
             .WithTransientLifetime()

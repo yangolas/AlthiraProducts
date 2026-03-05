@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Events.Models;
+﻿using AlthiraProducts.BuildingBlocks.Application.EventModel;
 
 namespace AlthiraProducts.Products.Application.Mappers.Events;
 

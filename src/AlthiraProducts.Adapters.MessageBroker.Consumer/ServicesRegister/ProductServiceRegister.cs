@@ -1,9 +1,11 @@
 ﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.HostInfraestructure.Extension;
-using AlthiraProducts.Adapters.MessageBroker.Consumer.Ports.Extensions;
 using AlthiraProducts.Adapters.MessageBroker.Consumer.Services.Extensions;
-using AlthiraProducts.Main.Settings.Models;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
+using AlthiraProducts.Products.Application.Ports.MessageBrokerConsumer;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AlthiraProducts.Adapters.MessageBroker.Consumer.ServicesRegister;
 
@@ -21,7 +23,9 @@ internal static class ProductServiceRegister
             services.AddSingleton<IProductConsumerService, ProductConsumerService>(provider =>
             {
                 IMediator mediator = provider.GetRequiredService<IMediator>();
-                return new ProductConsumerService(messageBrokerSettings, productEventChannel, mediator);
+                ILogger<ProductConsumerService> logger = provider.GetRequiredService<ILogger<ProductConsumerService>>();
+                IOpenTelemetryService openTelemetryService = provider.GetRequiredService<IOpenTelemetryService>();
+                return new ProductConsumerService(logger, openTelemetryService, messageBrokerSettings, productEventChannel, mediator);
             });
         }
 

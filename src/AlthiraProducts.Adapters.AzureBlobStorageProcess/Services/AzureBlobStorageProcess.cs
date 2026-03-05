@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage.Models;
-using AlthiraProducts.Adapters.AzureBlobStorage.Ports;
+﻿using AlthiraProducts.BuildingBlocks.Application.Models.Blobs;
+using AlthiraProducts.BuildingBlocks.Application.Ports.AzureBlobStorage;
 
 namespace AlthiraProducts.Adapters.AzureBlobStorageProcess.Services;
 

@@ -1,8 +1,7 @@
 ﻿using AlthiraProducts.Adapters.AzureBlobStorageProcess.HostInfraestructure;
-using AlthiraProducts.Adapters.AzureBlobStorageProcess.Ports;
 using AlthiraProducts.Adapters.AzureBlobStorageProcess.Services.Extensions;
-using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Main.Settings.Models;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.Products.Application.Ports.AzureBlobSotageProcess;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,8 +10,7 @@ namespace AlthiraProducts.Adapters.AzureBlobStorageProcess;
 public static class ServiceRegister
 {
     public static void AddAzureBlobStorageProcess(
-        this IServiceCollection services,
-        AzureBlobStorageSettings azureBlobStorageSettings)
+        this IServiceCollection services)
     {
         services.AddSingleton<IProductImageBlobStorageProcess, ProductImageBlobStorageProcess>();
         services.AddHostedService(sp => 

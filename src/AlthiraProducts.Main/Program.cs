@@ -8,9 +8,11 @@ using AlthiraProducts.Adapters.MessageBroker.Publisher.ServicesRegister;
 using AlthiraProducts.Adapters.OpenTelemetry;
 using AlthiraProducts.Adapters.Outbox;
 using AlthiraProducts.Adapters.Outbox.HostInfraestructure;
+using AlthiraProducts.Adapters.Outbox.Settings;
 using AlthiraProducts.Adapters.Repository.Read.Services;
 using AlthiraProducts.Adapters.Repository.Write;
 using AlthiraProducts.Adapters.WebApi;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
 using AlthiraProducts.Products.Application;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +56,7 @@ servicesConsumerBrokerMessage.AddRepositoryContextRead(config.DatabaseRead);
 servicesConsumerBrokerMessage.AddRepositoryRead(config.Assembly.AssemblyRepositoryRead);
 
 IServiceCollection servicesOutboxWorker = new ServiceCollection();
-servicesOutboxWorker.Configure<AlthiraProductsSettings>(configurationSection);
+servicesOutboxWorker.Configure<OutboxSettings>(configurationSection.GetSection("Outbox"));
 servicesOutboxWorker.AddOpenTelemetry(config.OpenTelemetry.OutboxWorkerName, config.OpenTelemetry.ConnectionString);
 servicesOutboxWorker.AddRepositoryContextWrite(config.DatabaseWrite);
 servicesOutboxWorker.AddRepositoryWrite(config.Assembly.AssemblyRepositoryWrite);
@@ -62,10 +64,10 @@ servicesOutboxWorker.AddOutboxPublisherBroker(config.MessageBroker, config.Event
 servicesOutboxWorker.AddOutboxWorker();
 
 IServiceCollection servicesAzureStorageBlobWorker = new ServiceCollection();
-servicesAzureStorageBlobWorker.Configure<AlthiraProductsSettings>(configurationSection);
+servicesAzureStorageBlobWorker.Configure<AzureBlobStorageSettings>(configurationSection.GetSection("AzureBlobStorage"));
 servicesAzureStorageBlobWorker.AddOpenTelemetry(config.OpenTelemetry.AzureBlobStorageWorkerName, config.OpenTelemetry.ConnectionString);
 servicesAzureStorageBlobWorker.AddAzureBlobStorageService(config.AzureBlobStorage);
-servicesAzureStorageBlobWorker.AddAzureBlobStorageProcess(config.AzureBlobStorage);
+servicesAzureStorageBlobWorker.AddAzureBlobStorageProcess();
 servicesAzureStorageBlobWorker.AddRepositoryContextWrite(config.DatabaseWrite);
 servicesAzureStorageBlobWorker.AddRepositoryWrite(config.Assembly.AssemblyRepositoryWrite);
 

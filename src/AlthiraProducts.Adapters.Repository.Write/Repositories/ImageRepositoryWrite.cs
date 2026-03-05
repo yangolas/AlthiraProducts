@@ -1,7 +1,7 @@
 ﻿using AlthiraProducts.Adapters.Repository.Write.Context;
-using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
-using AlthiraProducts.Adapters.Repository.Write.Enums;
-using AlthiraProducts.Adapters.Repository.Write.Ports.Products;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
+using AlthiraProducts.Products.Application.Ports.RepositoryWrite.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlthiraProducts.Adapters.Repository.Write.Repositories;

@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Products.Application.Dtos;
+﻿using AlthiraProducts.Products.Application.Models.Dtos;
 using AlthiraProducts.Products.Application.Querys;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

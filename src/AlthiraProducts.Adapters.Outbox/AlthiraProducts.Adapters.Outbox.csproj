@@ -12,14 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Events.Models\AlthiraProducts.Adapters.MessageBroker.Events.Models.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Publisher\AlthiraProducts.Adapters.MessageBroker.Publisher.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.OpenTelemetry\AlthiraProducts.Adapters.OpenTelemetry.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Write\AlthiraProducts.Adapters.Repository.Write.csproj" />
+    <Folder Include="Telemetry\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Telemetry\" />
+    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Products.Application\AlthiraProducts.Products.Application.csproj" />
   </ItemGroup>
 
 </Project>

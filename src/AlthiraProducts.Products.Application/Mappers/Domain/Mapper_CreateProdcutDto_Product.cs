@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Products.Application.Dtos.RequestsApi;
+﻿using AlthiraProducts.Products.Application.Models.Dtos.RequestsApi;
 using AlthiraProducts.Products.Domain.Entities;
 using AlthiraProducts.Products.Domain.ValueObject;
 using Microsoft.AspNetCore.Http;

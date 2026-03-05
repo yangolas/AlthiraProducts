@@ -1,17 +1,21 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.Ports.Extensions;
-using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.BuildingBlocks.Application.EventModel;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
+using AlthiraProducts.Products.Application.Ports.MessageBrokerConsumer;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AlthiraProducts.Adapters.MessageBroker.Consumer.Services.Extensions;
 
 public class ProductConsumerService : ConsumerService<Event>, IProductConsumerService
 {
     public ProductConsumerService(
+        ILogger<ProductConsumerService> logger,
+        IOpenTelemetryService openTelemetryService,
         MessageBrokerSettings messageBrokerSettings,
         ChannelSettings channelSettings,
         IMediator mediator)
-        : base(messageBrokerSettings, channelSettings, mediator)
+        : base( logger, openTelemetryService, messageBrokerSettings, channelSettings, mediator)
     {
     }
 }

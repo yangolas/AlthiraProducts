@@ -1,6 +1,6 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Events.Models.Product;
-using AlthiraProducts.Products.Application.Dtos;
-using AlthiraProducts.Products.Application.Dtos.Events;
+﻿using AlthiraProducts.Products.Application.Models.Dtos;
+using AlthiraProducts.Products.Application.Models.Dtos.Events;
+using AlthiraProducts.Products.Application.Models.Events;
 using AlthiraProducts.Products.Domain.Entities;
 using System.Text.Json;
 

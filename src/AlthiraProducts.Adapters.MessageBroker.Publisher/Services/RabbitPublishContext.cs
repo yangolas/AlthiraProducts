@@ -1,5 +1,8 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.Adapters.MessageBroker.Publisher.Diagnostic.Telemetry;
+using AlthiraProducts.BuildingBlocks.Application.EventModel;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
@@ -11,13 +14,19 @@ public abstract class RabbitPublishContext
     #pragma warning disable CS8618
     private static IConnection _connection;
     #pragma warning restore CS8618
+    private readonly ILogger _logger;
+    private readonly IOpenTelemetryService _openTelemetryService;
     private readonly ChannelSettings[] _channelsSettings;
     private readonly string _exchangeName;
     private readonly Dictionary<string, string> _routingKeysByEventName;
     public RabbitPublishContext(
+        ILogger logger,
+        IOpenTelemetryService openTelemetryService,
         MessageBrokerSettings messageBrokerSettings,
         ChannelSettings[] channelSettings)
     {
+        _logger = logger;
+        _openTelemetryService = openTelemetryService;
         _channelsSettings = channelSettings;
         _exchangeName = _channelsSettings.First().Exchange;
 
@@ -77,6 +86,9 @@ public abstract class RabbitPublishContext
     {
         try
         {
+            _openTelemetryService.AddStep($"Preparing to publish event: {@event.EventName}");
+
+
             IChannel channel = await CreateChannelAsync();
 
             string message = JsonSerializer.Serialize(@event);
@@ -94,6 +106,14 @@ public abstract class RabbitPublishContext
                 throw new Exception($"No routing key configured for event type '{@event.EventName}'");
             }
 
+            _openTelemetryService.AddPublisherBrokerMetadata(@event, routingKey);
+
+            _logger.LogInformation("Publishing event {EventName} (ID: {EventId}) to exchange {Exchange} with routing key {RoutingKey}",
+                @event.EventName, 
+                @event.Id, 
+                _exchangeName, 
+                routingKey);
+
             await channel.BasicPublishAsync(
                 exchange: _exchangeName,
                 routingKey: routingKey!,
@@ -101,11 +121,12 @@ public abstract class RabbitPublishContext
                 properties,
                 new ReadOnlyMemory<byte>(body)
             );
-
+            _openTelemetryService.AddStep("Event published successfully to RabbitMQ");
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError(ex, "Error publishing event {@EventId}", @event?.Id);
+            _openTelemetryService.AddError(ex, $"Error publishing event {@event?.Id}");
         }
     }
 }

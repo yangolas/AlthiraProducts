@@ -1,5 +1,6 @@
-﻿using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Adapters.Outbox.Ports;
+﻿using AlthiraProducts.Adapters.Outbox.Settings;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Ports.Outbox;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -17,12 +18,12 @@ public class OutboxWorker : BackgroundService
         IOpenTelemetryService openTelemetryService,
         ILogger<OutboxWorker> logger,
         IOutboxService outboxService,
-        IOptions<AlthiraProductsSettings> appsettings)
+        IOptions<OutboxSettings> outboxSetting)
     {
         _openTelemetryService = openTelemetryService;
         _logger = logger;
         _outboxService = outboxService;
-        _intervalToPolling = appsettings.Value.Outbox.IntervalToPolling;
+        _intervalToPolling = outboxSetting.Value.IntervalToPolling;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

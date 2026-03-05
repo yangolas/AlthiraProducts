@@ -1,7 +1,6 @@
-﻿using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
-using AlthiraProducts.Adapters.Repository.Write.EntityTypeConfiguration;
+﻿using AlthiraProducts.Adapters.Repository.Write.EntityTypeConfiguration;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace AlthiraProducts.Adapters.Repository.Write.Context;
 

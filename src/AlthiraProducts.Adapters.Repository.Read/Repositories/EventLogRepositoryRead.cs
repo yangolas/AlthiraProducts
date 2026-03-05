@@ -1,6 +1,6 @@
 ﻿using AlthiraProducts.Adapters.Repository.Read.Context;
-using AlthiraProducts.Adapters.Repository.Read.Models;
-using AlthiraProducts.Adapters.Repository.Read.Ports;
+using AlthiraProducts.Products.Application.Models.Persistence.Read;
+using AlthiraProducts.Products.Application.Ports.RepositoryRead;
 using MongoDB.Driver;
 
 namespace AlthiraProducts.Adapters.Repository.Read.Repositories;

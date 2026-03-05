@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Events.Models\AlthiraProducts.Adapters.MessageBroker.Events.Models.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.OpenTelemetry\AlthiraProducts.Adapters.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Main.Settings\AlthiraProducts.Main.Settings.csproj" />
   </ItemGroup>
 

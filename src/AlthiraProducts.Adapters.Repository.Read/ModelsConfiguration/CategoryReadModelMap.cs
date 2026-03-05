@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.Repository.Read.Models;
-using AlthiraProducts.Adapters.Repository.Read.ModelsConfiguration.Contract;
+﻿using AlthiraProducts.Adapters.Repository.Read.ModelsConfiguration.Contract;
+using AlthiraProducts.Products.Application.Models.Persistence.Read;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;

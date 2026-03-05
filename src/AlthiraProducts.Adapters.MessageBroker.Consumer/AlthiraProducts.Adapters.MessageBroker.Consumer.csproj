@@ -7,16 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="14.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
     <PackageReference Include="RabbitMQ.Client" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Events.Models\AlthiraProducts.Adapters.MessageBroker.Events.Models.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.OpenTelemetry\AlthiraProducts.Adapters.OpenTelemetry.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Main.Settings\AlthiraProducts.Main.Settings.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Products.Application\AlthiraProducts.Products.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage.Ports;
-using AlthiraProducts.Adapters.AzureBlobStorage.Ports.Extensions;
-using AlthiraProducts.Adapters.Repository.Read.Models;
-using AlthiraProducts.Products.Application.Dtos;
-using AlthiraProducts.Products.Application.Dtos.ResponsesApi;
+﻿using AlthiraProducts.Products.Application.Models.Dtos;
+using AlthiraProducts.Products.Application.Models.Dtos.ResponsesApi;
+using AlthiraProducts.Products.Application.Models.Persistence.Read;
+using AlthiraProducts.Products.Application.Ports.AzureBlobStorage;
 using AlthiraProducts.Products.Domain.Enums;
 namespace AlthiraProducts.Products.Application.Mappers.Dtos;
 

@@ -1,4 +1,7 @@
-﻿using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.Diagnostic.Telemetry;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -9,13 +12,16 @@ public abstract class RabbitConsumerContext
 #pragma warning disable CS8618
     private static IConnection _connection;
 #pragma warning restore CS8618
-
+    private readonly ILogger _logger;
+    private readonly IOpenTelemetryService _openTelemetryService;
     private readonly ChannelSettings _channelSettings;
     private readonly int _maxRetryAttempts;
     private readonly TimeSpan _initialDelay;
     private readonly double _backoffFactor;
     public string EventName { get; init; }
     public RabbitConsumerContext(
+        ILogger logger,
+        IOpenTelemetryService openTelemetryService,
         MessageBrokerSettings messageBrokerSettings,
         ChannelSettings channelSettings)
     {
@@ -23,6 +29,8 @@ public abstract class RabbitConsumerContext
         _initialDelay = channelSettings.RetryPolicy.InitialDelay;
         _backoffFactor = channelSettings.RetryPolicy.BackoffMultiplier;
         _channelSettings = channelSettings;
+        _logger = logger;
+        _openTelemetryService = openTelemetryService;
         EventName = channelSettings.EventName;
         if (_connection is null)
         {
@@ -223,9 +231,12 @@ public abstract class RabbitConsumerContext
         string dlxExchange = $"{_channelSettings.Exchange}.dlx";
         int nextRetryLevel = retryCount + 1;
 
+        _openTelemetryService.AddStep($"Processing message failure. Current retries: {retryCount}");
+
         if (nextRetryLevel <= _maxRetryAttempts)
         {
             string nextRetryRoutingKey = $"{_channelSettings.RoutingKey}.retry.{nextRetryLevel}";
+            _openTelemetryService.AddConsumerBrokerRetryMetadata(nextRetryLevel, nextRetryRoutingKey);
 
             // Publish meesage to next retry queue
             await channel.BasicPublishAsync(
@@ -244,14 +255,21 @@ public abstract class RabbitConsumerContext
             // ACK message in mainqueue to remove it
             await channel.BasicAckAsync(@event.DeliveryTag, multiple: false);
 
-            Console.WriteLine($"Message failed. Sent to retry {nextRetryLevel}");
+            _logger.LogError("Message failed. Sent to retry {nextRetryLevel}", nextRetryLevel);
+            _openTelemetryService.AddStep($"Message moved to retry queue: {nextRetryLevel}");
         }
         else
         {
+            _openTelemetryService.AddConsumerBrokerDLQMetadata();
+            _openTelemetryService.AddError("Max retry attempts reached");
             // Max retries → Deade letter queue
             await channel.BasicNackAsync(@event.DeliveryTag, multiple: false, requeue: false);
+            
+            _logger.LogCritical("Message failed permanently. Max retries reached ({MaxRetries}). Sent to DLQ. CorrelationId: {CorrelationId}",
+            _maxRetryAttempts, @event.BasicProperties.CorrelationId);
 
-            Console.WriteLine($"Message failed. Max retries reached → DLQ. Error");
+            _openTelemetryService.AddStep("Message sent to DLQ (Permanent Failure)");
+
         }
     }
     public abstract Task OnReceivedAsync(object sender, BasicDeliverEventArgs @event);

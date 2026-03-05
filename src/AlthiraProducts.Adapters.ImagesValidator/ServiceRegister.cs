@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AlthiraProducts.BuildingBlocks.Application.Ports.ServiceRegistration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace AlthiraProducts.Adapters.ImagesValidator;
@@ -13,7 +14,7 @@ public static class ServiceRegister
         serviceCollection.Scan(scan =>
             scan.FromAssemblies(assembly)
             .AddClasses(clases =>
-                clases.AssignableToAny(typeof(ITransientImageValidator))
+                clases.AssignableToAny(typeof(ITransient))
             )
             .AsImplementedInterfaces()
             .WithTransientLifetime()

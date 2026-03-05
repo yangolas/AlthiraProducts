@@ -1,22 +1,20 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage.Models;
-using AlthiraProducts.Adapters.AzureBlobStorage.Ports.Extensions;
-using AlthiraProducts.Adapters.ImagesValidator.Ports;
-using AlthiraProducts.Adapters.MessageBroker.Events.Models.Product;
-using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Adapters.OpenTelemetry.Services;
-using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
-using AlthiraProducts.Adapters.Repository.Write.Ports;
-using AlthiraProducts.Adapters.Repository.Write.Ports.Products;
+﻿using AlthiraProducts.BuildingBlocks.Application.Models.Blobs;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
 using AlthiraProducts.Products.Application.Commands;
-using AlthiraProducts.Products.Application.Diagnostic.Telemetry;
+using AlthiraProducts.Products.Application.Diagnostic.Telemetry.CategoryTelemetry;
+using AlthiraProducts.Products.Application.Diagnostic.Telemetry.ProductTelemetry;
 using AlthiraProducts.Products.Application.Mappers.Domain;
 using AlthiraProducts.Products.Application.Mappers.Events;
 using AlthiraProducts.Products.Application.Mappers.Repository.Write;
+using AlthiraProducts.Products.Application.Models.Events;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.Products.Application.Ports.AzureBlobStorage;
+using AlthiraProducts.Products.Application.Ports.ImagesValidator;
+using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
 using AlthiraProducts.Products.Domain.Entities;
-using DnsClient.Internal;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using SixLabors.ImageSharp;
 
 namespace AlthiraProducts.Products.Application.CommandsHandler;
 
@@ -55,7 +53,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         Product product = Mapper_CreateProdcutDto_Product
             .MapToEntity(createProductCommand.CreateProductDto);
         _openTelemetryService.AddStep("Product bussines validated");
-        _openTelemetryService.AddProductMetadata(product);
+        _openTelemetryService.AddCreateProductCommandHandlerMetadata(product);
 
         await _productBlobStorageService.UploadBlobsAsync(
             product.ProductImages.Select(productImage => new BlobModel() 

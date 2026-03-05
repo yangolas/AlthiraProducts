@@ -7,17 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageReference Include="MongoDB.Driver" Version="3.6.0" />
     <PackageReference Include="Scrutor" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.Main.Settings\AlthiraProducts.Main.Settings.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Products.Application\AlthiraProducts.Products.Application.csproj" />
   </ItemGroup>
 
 </Project>

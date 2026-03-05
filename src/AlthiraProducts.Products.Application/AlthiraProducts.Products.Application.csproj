@@ -7,19 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="14.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.Adapters.AzureBlobStorage\AlthiraProducts.Adapters.AzureBlobStorage.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.ImagesValidator\AlthiraProducts.Adapters.ImagesValidator.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Events.Models\AlthiraProducts.Adapters.MessageBroker.Events.Models.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Publisher\AlthiraProducts.Adapters.MessageBroker.Publisher.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.OpenTelemetry\AlthiraProducts.Adapters.OpenTelemetry.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Read\AlthiraProducts.Adapters.Repository.Read.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Write\AlthiraProducts.Adapters.Repository.Write.csproj" />
-    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Aplication\AlthiraProducts.BuildingBlocks.Aplication.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Products.Domain\AlthiraProducts.Products.Domain.csproj" />
   </ItemGroup>
 

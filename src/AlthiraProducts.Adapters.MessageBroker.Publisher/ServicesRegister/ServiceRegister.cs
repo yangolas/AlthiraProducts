@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.BuildingBlocks.Application.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlthiraProducts.Adapters.MessageBroker.Publisher.ServicesRegister;
@@ -19,7 +19,7 @@ public static class ServiceRegister
 
     public static void AddOutboxPublisherBroker(
         this IServiceCollection services,
-         MessageBrokerSettings messageBrokerSettings,
+        MessageBrokerSettings messageBrokerSettings,
         EventSettings eventSettings)
     {
         services.AddAllBoundedContextServices(

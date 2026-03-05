@@ -1,6 +1,6 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.Ports;
-using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Adapters.OpenTelemetry.Ports;
+﻿using AlthiraProducts.BuildingBlocks.Application.EventModel;
+using AlthiraProducts.BuildingBlocks.Application.Ports.MessageBrokerConsumer;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 

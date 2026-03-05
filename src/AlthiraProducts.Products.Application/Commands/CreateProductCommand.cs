@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Products.Application.Dtos.RequestsApi;
+﻿using AlthiraProducts.Products.Application.Models.Dtos.RequestsApi;
 using MediatR;
 
 namespace AlthiraProducts.Products.Application.Commands;

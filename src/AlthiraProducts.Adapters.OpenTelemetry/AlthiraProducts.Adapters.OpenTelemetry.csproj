@@ -15,4 +15,8 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.15.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
+  </ItemGroup>
+
 </Project>

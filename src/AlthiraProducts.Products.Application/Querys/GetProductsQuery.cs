@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.BuildingBlocks.Aplication.Pagination;
-using AlthiraProducts.Products.Application.Dtos.ResponsesApi;
+﻿using AlthiraProducts.BuildingBlocks.Application.Models.Pagination;
+using AlthiraProducts.Products.Application.Models.Dtos.ResponsesApi;
 using MediatR;
 
 namespace AlthiraProducts.Products.Application.Querys;

@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage.Models;
-using AlthiraProducts.Adapters.AzureBlobStorage.Ports;
+﻿using AlthiraProducts.BuildingBlocks.Application.Models.Blobs;
+using AlthiraProducts.BuildingBlocks.Application.Ports.AzureBlobStorage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;

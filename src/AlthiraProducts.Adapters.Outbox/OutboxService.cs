@@ -1,13 +1,13 @@
-﻿using AlthiraProducts.Adapters.MessageBroker.Events.Models;
-using AlthiraProducts.Adapters.MessageBroker.Publisher.Ports;
-using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Adapters.Outbox.Diagnostic.Telemetry;
+﻿using AlthiraProducts.Adapters.Outbox.Diagnostic.Telemetry;
 using AlthiraProducts.Adapters.Outbox.Mappers;
-using AlthiraProducts.Adapters.Outbox.Ports;
-using AlthiraProducts.Adapters.Repository.Write.EntitiesRepository;
-using AlthiraProducts.Adapters.Repository.Write.Ports;
-using AlthiraProducts.Adapters.Repository.Write.Ports.Products;
-using AlthiraProducts.Main.Settings.Models;
+using AlthiraProducts.Adapters.Outbox.Settings;
+using AlthiraProducts.BuildingBlocks.Application.EventModel;
+using AlthiraProducts.BuildingBlocks.Application.Ports.MessageBrokerPublisher;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.BuildingBlocks.Application.Ports.Outbox;
+using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
@@ -26,7 +26,7 @@ public class OutboxService : IOutboxService
     private readonly Dictionary<string, IPublisherService<Event>> dictionaryEventNamePublishService = [];
 
     public OutboxService(
-        IOptions<AlthiraProductsSettings> appSettings,
+        IOptions<OutboxSettings> outboxSettings,
         ILogger<OutboxService> logger,
         IOpenTelemetryService openTelemeryService,
         IEnumerable<IPublisherService<Event>> publishersService,
@@ -35,7 +35,7 @@ public class OutboxService : IOutboxService
     {
         _logger = logger;
         _openTelemetryService = openTelemeryService;
-        _outboxSettings = appSettings.Value.Outbox;
+        _outboxSettings = outboxSettings.Value;
         _publishersSevice = publishersService;
         _outboxRepository = outboxRepository;
         _unitOfWork = unitOfWork;

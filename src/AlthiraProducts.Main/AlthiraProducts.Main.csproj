@@ -34,7 +34,9 @@
     <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Read\AlthiraProducts.Adapters.Repository.Read.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Write\AlthiraProducts.Adapters.Repository.Write.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Adapters.WebApi\AlthiraProducts.Adapters.WebApi.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Main.Settings\AlthiraProducts.Main.Settings.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Products.Application\AlthiraProducts.Products.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

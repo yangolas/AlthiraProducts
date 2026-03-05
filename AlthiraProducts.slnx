@@ -12,7 +12,6 @@
     <Project Path="src/AlthiraProducts.Adapters.AzureBlobStorageProcess/AlthiraProducts.Adapters.AzureBlobStorageProcess.csproj" Id="13672c99-3506-4637-92ce-db4426d06332" />
     <Project Path="src/AlthiraProducts.Adapters.ImagesValidator/AlthiraProducts.Adapters.ImagesValidator.csproj" Id="b0c936ff-1dbb-4df6-b119-86958eb52a8f" />
     <Project Path="src/AlthiraProducts.Adapters.MessageBroker.Consumer/AlthiraProducts.Adapters.MessageBroker.Consumer.csproj" />
-    <Project Path="src/AlthiraProducts.Adapters.MessageBroker.Events.Models/AlthiraProducts.Adapters.MessageBroker.Events.Models.csproj" Id="bc9d6a51-778f-4de5-a3a3-079f0df99956" />
     <Project Path="src/AlthiraProducts.Adapters.MessageBroker.Publisher/AlthiraProducts.Adapters.MessageBroker.Publisher.csproj" Id="3fc8d9e5-a3bd-479b-8121-c3a4c54044a2" />
     <Project Path="src/AlthiraProducts.Adapters.OpenTelemetry/AlthiraProducts.Adapters.OpenTelemetry.csproj" Id="b7b26a60-e83e-49d5-9c5f-ee6bea5fe65c" />
     <Project Path="src/AlthiraProducts.Adapters.Outbox/AlthiraProducts.Adapters.Outbox.csproj" />
@@ -21,7 +20,7 @@
     <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Adapters.WebApi/AlthiraProducts.Adapters.WebApi.csproj" Id="a9b83696-c964-4d14-b826-58710b7906f7" />
   </Folder>
   <Folder Name="/BuildingBlocks/">
-    <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.BuildingBlocks.Aplication/AlthiraProducts.BuildingBlocks.Aplication.csproj" Id="21358bb3-264e-4c90-ac32-ef09cac6cb1c" />
+    <Project Path="src/AlthiraProducts.BuildingBlocks.Application/AlthiraProducts.BuildingBlocks.Application.csproj" />
   </Folder>
   <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Main.Settings/AlthiraProducts.Main.Settings.csproj" Id="9633f81a-feb0-4573-b4bc-f892fe51a950" />
   <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" Id="5564861a-9dfe-4bfc-9524-be136019f5cd" />

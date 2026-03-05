@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.OpenTelemetry.Ports;
-using AlthiraProducts.Adapters.OpenTelemetry.Services;
+﻿using AlthiraProducts.Adapters.OpenTelemetry.Services;
+using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;

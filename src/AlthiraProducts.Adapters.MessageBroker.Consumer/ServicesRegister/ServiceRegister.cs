@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Main.Settings.Models;
+﻿using AlthiraProducts.BuildingBlocks.Application.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlthiraProducts.Adapters.MessageBroker.Consumer.ServicesRegister;

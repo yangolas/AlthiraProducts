@@ -1,5 +1,5 @@
 ﻿using AlthiraProducts.Adapters.Outbox.HostInfraestructure;
-using AlthiraProducts.Adapters.Outbox.Ports;
+using AlthiraProducts.BuildingBlocks.Application.Ports.Outbox;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlthiraProducts.Adapters.Outbox;

@@ -1,5 +1,5 @@
 ﻿using AlthiraProducts.Adapters.Repository.Write.Context;
-using AlthiraProducts.Adapters.Repository.Write.Ports;
+using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
 using Microsoft.EntityFrameworkCore;
 
 namespace AlthiraProducts.Adapters.Repository.Write.Services;

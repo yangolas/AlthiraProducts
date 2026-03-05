@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.Adapters.Repository.Read.Models;
-using AlthiraProducts.Products.Application.Dtos;
+﻿using AlthiraProducts.Products.Application.Models.Dtos;
+using AlthiraProducts.Products.Application.Models.Persistence.Read;
 namespace AlthiraProducts.Products.Application.Mappers.Dtos;
 
 public class Mapper_CategoryReadModel_CategoryDto

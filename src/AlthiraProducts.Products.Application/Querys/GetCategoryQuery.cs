@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Products.Application.Dtos;
+﻿using AlthiraProducts.Products.Application.Models.Dtos;
 using MediatR;
 
 namespace AlthiraProducts.Products.Application.Querys;

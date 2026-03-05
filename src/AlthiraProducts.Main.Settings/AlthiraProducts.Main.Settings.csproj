@@ -6,4 +6,26 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Models\AzureBlobStorageSettings.cs" />
+    <Compile Remove="Models\BlobContainerSettings.cs" />
+    <Compile Remove="Models\ChannelSettings.cs" />
+    <Compile Remove="Models\DatabaseReadSettings.cs" />
+    <Compile Remove="Models\DatabaseWriteSettings.cs" />
+    <Compile Remove="Models\EventSettings.cs" />
+    <Compile Remove="Models\MessageBrokerSettings.cs" />
+    <Compile Remove="Models\OpenTelemetrySettings.cs" />
+    <Compile Remove="Models\OutboxSettings.cs" />
+    <Compile Remove="Models\RetryPolicySettings.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AlthiraProducts.Adapters.AzureBlobStorage\AlthiraProducts.Adapters.AzureBlobStorage.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.MessageBroker.Consumer\AlthiraProducts.Adapters.MessageBroker.Consumer.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.OpenTelemetry\AlthiraProducts.Adapters.OpenTelemetry.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.Outbox\AlthiraProducts.Adapters.Outbox.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Read\AlthiraProducts.Adapters.Repository.Read.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Write\AlthiraProducts.Adapters.Repository.Write.csproj" />
+  </ItemGroup>
+
 </Project>
