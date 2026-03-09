@@ -1,0 +1,26 @@
+# Directorios de compilación local
+**/bin/
+**/obj/
+**/out/
+
+# Herramientas y caché de .NET
+.angular/
+.vscode/
+.idea/
+.vs/
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Docker logs y archivos temporales
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Archivos de usuario y SO
+*.user
+*.suo
+.DS_Store
+Thumbs.db
