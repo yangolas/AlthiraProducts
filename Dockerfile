@@ -10,9 +10,9 @@ COPY . .
 # Esto hará que dotnet busque las dependencias por nombre, no por ruta de disco U:
 RUN dotnet restore "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj"
 
-# 3. Publicamos el proyecto
+# 3. Publicamos el proyecto Main
 WORKDIR "/src/src/AlthiraProducts.Main"
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false /p:ErrorOnDuplicatePublishOutputFiles=false
 
 # ETAPA 2: Ejecución
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
