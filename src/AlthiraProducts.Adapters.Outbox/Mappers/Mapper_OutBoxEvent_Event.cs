@@ -13,7 +13,7 @@ public static class Mapper_OutBoxEvent_Event
             EventName = outboxEvent.EventName,
             Version = outboxEvent.Version,
             Payload = outboxEvent.Payload,
-            CreatedAt = outboxEvent.CreatedAt,
+            CreatedAt = outboxEvent.InsertedAt,
             Source = null 
         };
     }

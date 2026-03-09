@@ -15,7 +15,8 @@ public class ProductImageWriteModel: RetryPolicyWrite<ImageStatus>
         Guid name,
         string contentType,
         int order,
-        Guid productId)
+        Guid productId,
+        string? traceContext = null)
     {
         ProductImageWriteModel productImageWriteModel = new() 
         {
@@ -25,7 +26,10 @@ public class ProductImageWriteModel: RetryPolicyWrite<ImageStatus>
             ProductId = productId
         };
 
-        productImageWriteModel.InitializeProcessable(ImageStatus.Pending);
+        productImageWriteModel.InitializeProcessable(
+            ImageStatus.Pending,
+            traceContext);
+
         return productImageWriteModel;
     }
 

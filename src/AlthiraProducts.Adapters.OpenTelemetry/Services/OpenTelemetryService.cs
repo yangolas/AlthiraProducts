@@ -3,6 +3,7 @@ using OpenTelemetry;
 using OpenTelemetry.Context.Propagation;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
 
 namespace AlthiraProducts.Adapters.OpenTelemetry.Services;
 
@@ -40,13 +41,21 @@ public class OpenTelemetryService(ActivitySource _activitySource) : IOpenTelemet
         Activity.Current?.AddEvent(new(message));
     }
 
-    public void InjectContext(IDictionary<string, object?> headers)
+    public Dictionary<string, object?> InjectContextGetDictionary() 
     {
+        Dictionary<string, object?> headers = new();
         var contextToInject = Activity.Current?.Context ?? default;
         Propagator.Inject(new PropagationContext(contextToInject, Baggage.Current), headers, (dict, key, value) =>
         {
             dict[key] = value;
         });
+        return headers;
+    }
+
+    public string InjectContextGetString()
+    {
+        Dictionary<string, object?> headers = InjectContextGetDictionary();
+        return JsonSerializer.Serialize(headers);
     }
 
     public void ExtractContext(IDictionary<string, object?> headers)
@@ -60,6 +69,6 @@ public class OpenTelemetryService(ActivitySource _activitySource) : IOpenTelemet
             }
             return Enumerable.Empty<string>();
         });
-        _activitySource.StartActivity("RabbitMQ Consumer", ActivityKind.Consumer, parentContext.ActivityContext);
+        Baggage.Current = parentContext.Baggage;
     }
 }

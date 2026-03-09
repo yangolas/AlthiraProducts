@@ -2,7 +2,6 @@
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
 using AlthiraProducts.Products.Application.Commands;
-using AlthiraProducts.Products.Application.Diagnostic.Telemetry.CategoryTelemetry;
 using AlthiraProducts.Products.Application.Diagnostic.Telemetry.ProductTelemetry;
 using AlthiraProducts.Products.Application.Mappers.Domain;
 using AlthiraProducts.Products.Application.Mappers.Events;
@@ -53,7 +52,6 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         Product product = Mapper_CreateProdcutDto_Product
             .MapToEntity(createProductCommand.CreateProductDto);
         _openTelemetryService.AddStep("Product bussines validated");
-        _openTelemetryService.AddCreateProductCommandHandlerMetadata(product);
 
         await _productBlobStorageService.UploadBlobsAsync(
             product.ProductImages.Select(productImage => new BlobModel() 
@@ -65,9 +63,10 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             isTemp:true);
 
         _openTelemetryService.AddStep("Product images upload in a temp container");
-
+        string traceContext =_openTelemetryService.InjectContextGetString();
+        
         ProductWriteModel productWriteModel = Mapper_Product_ProductRepoWrite
-            .MapToRepoWrite(product);
+            .MapToRepoWrite(product, traceContext);
 
         _productRepositoryWrite.InsertProduct(productWriteModel);
         _openTelemetryService.AddStep("Product ready for saving in db");
@@ -76,14 +75,15 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             MapToEvent(product, nameof(CreateProductCommandHandler));
 
         OutboxEventWriteModel outboxEventWriteModel = Mapper_Event_OutboxEventWriteModel
-            .MapToOutboxEvent(createProductEventCommand);
+            .MapToOutboxEvent(createProductEventCommand, traceContext);
 
         _outboxEventRepositoryWrite.InsertEvent(outboxEventWriteModel);
         _openTelemetryService.AddStep("Outbox information ready for saving in db");
+        _openTelemetryService.AddCreateProductCommandHandlerMetadata(product, createProductEventCommand);
 
         await _unitOfWork.SaveChangesAsync();
         _openTelemetryService.AddStep("Information saved in database");
-       
+
         _logger.LogInformation(
             "Product {Sku} created successfully with Id {ProductId}. Associated images: {ImageCount}",
             product.Sku.Id,

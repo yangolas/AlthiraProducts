@@ -58,6 +58,11 @@ public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<T
         IChannel channel = ((AsyncEventingBasicConsumer)sender).Channel;
 
         _openTelemetryService.AddStep($"Message received from RabbitMQ: {@event.RoutingKey}");
+       
+        IDictionary<string,object?>? headers = @event.BasicProperties.Headers;
+        if (headers != null)
+            _openTelemetryService.ExtractContext(headers);
+
         try
         {
             string message = Encoding.UTF8.GetString(@event.Body.Span);
@@ -67,7 +72,6 @@ public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<T
                 ?? throw new Exception("Error in the deserializer of event base");
             _openTelemetryService.AddStep($"Event base deserialized: {eventBase.EventName}");
 
-            _openTelemetryService.AddConsumerBrokerMetadata(eventBase);
 
             Type eventType = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
@@ -81,6 +85,8 @@ public class ConsumerService<TEvent> : RabbitConsumerContext, IConsumerService<T
             await _mediator.Send((dynamic)specificEvent);
 
             await channel.BasicAckAsync(@event.DeliveryTag, multiple: false);
+
+            _openTelemetryService.AddConsumerBrokerMetadata(eventBase, @event);
             _logger.LogInformation("Message {EventName} processed and acknowledged", eventBase.EventName);
             _openTelemetryService.AddStep("Message acknowledged successfully");
         }

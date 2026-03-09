@@ -8,24 +8,27 @@ public class OutboxEventWriteModel : RetryPolicyWrite<OutboxStatus>
     public string EventName { get; private set; } = null!;
     public string Payload { get; private set; } = null!;
     public int Version { get; private set; }
-
+    public DateTime CreatedAt { get; private set; }
 
     private OutboxEventWriteModel() { }
 
     public static OutboxEventWriteModel Create(
         string eventName,
         int version,
-        string payload)
+        string payload,
+        DateTime createdAt,
+        string? traceContext = null)
     {
         OutboxEventWriteModel outboxEventWriteModel = new ()
         {
             Id = Guid.NewGuid(),
             EventName = eventName,
             Payload = payload,
-            Version = version
+            Version = version,
+            CreatedAt = createdAt
         };
 
-        outboxEventWriteModel.InitializeProcessable(OutboxStatus.Pending);
+        outboxEventWriteModel.InitializeProcessable(OutboxStatus.Pending, traceContext);
         return outboxEventWriteModel;
     }
 

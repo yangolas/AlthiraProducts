@@ -34,10 +34,17 @@ public class OutboxEventConfiguration : IEntityTypeConfiguration<OutboxEventWrit
 
         builder.Property(x => x.NextRetryAt);
         builder.Property(x => x.ProcessedAt);
+        builder.Property(x => x.InsertedAt)
+            .IsRequired();
+
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 
         builder.Property(x => x.Error)
+            .HasColumnType("nvarchar(max)");
+
+        builder.Property(x => x.TraceContext)
+            .IsRequired(false)
             .HasColumnType("nvarchar(max)");
 
         builder.HasIndex(x => new { x.Status, x.NextRetryAt })

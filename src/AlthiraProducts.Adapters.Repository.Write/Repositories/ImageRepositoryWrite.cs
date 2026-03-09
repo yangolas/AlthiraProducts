@@ -17,7 +17,7 @@ public class ImageRepositoryWrite(ProductWriteContext _productContext) : IImageR
                 image.Status == ImageStatus.Pending
                 && (image.NextRetryAt == null
                     || image.NextRetryAt <= now))
-            .OrderBy(image => image.CreatedAt)
+            .OrderBy(image => image.InsertedAt)
             .Take(batchSize)
             .ToListAsync();
     }

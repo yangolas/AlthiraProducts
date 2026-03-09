@@ -87,17 +87,21 @@ public abstract class RabbitPublishContext
         try
         {
             _openTelemetryService.AddStep($"Preparing to publish event: {@event.EventName}");
-
+            Dictionary<string, object?> headers = _openTelemetryService.InjectContextGetDictionary();
 
             IChannel channel = await CreateChannelAsync();
 
             string message = JsonSerializer.Serialize(@event);
             byte[] body = Encoding.UTF8.GetBytes(message);
 
+            AmqpTimestamp inQueueAt = new (DateTimeOffset.UtcNow.ToUnixTimeSeconds());
             BasicProperties properties = new()
             {
                 ContentType = "application/json",
-                DeliveryMode = DeliveryModes.Persistent
+                DeliveryMode = DeliveryModes.Persistent,
+                MessageId = @event.Id.ToString(),
+                Timestamp = inQueueAt,
+                Headers = headers,
             };
 
             if (!_routingKeysByEventName.TryGetValue(@event.EventName, out string? routingKey) 
@@ -106,14 +110,6 @@ public abstract class RabbitPublishContext
                 throw new Exception($"No routing key configured for event type '{@event.EventName}'");
             }
 
-            _openTelemetryService.AddPublisherBrokerMetadata(@event, routingKey);
-
-            _logger.LogInformation("Publishing event {EventName} (ID: {EventId}) to exchange {Exchange} with routing key {RoutingKey}",
-                @event.EventName, 
-                @event.Id, 
-                _exchangeName, 
-                routingKey);
-
             await channel.BasicPublishAsync(
                 exchange: _exchangeName,
                 routingKey: routingKey!,
@@ -121,6 +117,14 @@ public abstract class RabbitPublishContext
                 properties,
                 new ReadOnlyMemory<byte>(body)
             );
+
+            _openTelemetryService.AddPublisherBrokerMetadata(@event, routingKey, _exchangeName, inQueueAt);
+
+            _logger.LogInformation("Publishing event {EventName} (ID: {EventId}) to exchange {Exchange} with routing key {RoutingKey}",
+                @event.EventName, 
+                @event.Id, 
+                _exchangeName, 
+                routingKey);
             _openTelemetryService.AddStep("Event published successfully to RabbitMQ");
         }
         catch (Exception ex)

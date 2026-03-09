@@ -5,11 +5,13 @@ namespace AlthiraProducts.Products.Application.Mappers.Repository.Write;
 
 public static class Mapper_Event_OutboxEventWriteModel
 {
-    public static OutboxEventWriteModel MapToOutboxEvent(this Event @event)
+    public static OutboxEventWriteModel MapToOutboxEvent(this Event @event, string traceContext)
     {
         return OutboxEventWriteModel.Create(
             @event.EventName,
             @event.Version,
-            @event.Payload);
+            @event.Payload,
+            @event.CreatedAt,
+            traceContext);
     }
 }

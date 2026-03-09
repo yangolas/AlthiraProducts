@@ -1,11 +1,13 @@
-﻿using AlthiraProducts.Products.Application.Models.Persistence.Write;
+﻿using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using AlthiraProducts.Products.Domain.Entities;
+using System.Text.Json;
 
 namespace AlthiraProducts.Products.Application.Mappers.Repository.Write;
 
 public static class Mapper_Product_ProductRepoWrite
 {
-    public static ProductWriteModel MapToRepoWrite(this Product product)
+    public static ProductWriteModel MapToRepoWrite(this Product product, string traceContext)
     {
         return new ProductWriteModel()
         {
@@ -22,7 +24,8 @@ public static class Mapper_Product_ProductRepoWrite
                 image.Name,
                 image.ContentType,
                 image.Order,
-                product.Id))]
+                product.Id,
+                traceContext))]
         };
     }
 }

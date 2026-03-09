@@ -17,7 +17,7 @@ public class OutboxEventRepository(ProductWriteContext _productContext) : IOutbo
                 outboxEvent.Status == OutboxStatus.Pending 
                 && (outboxEvent.NextRetryAt == null 
                     || outboxEvent.NextRetryAt <= now))
-            .OrderBy(outboxEvent => outboxEvent.CreatedAt)
+            .OrderBy(outboxEvent => outboxEvent.InsertedAt)
             .Take(batchSize)
             .ToListAsync();
     }

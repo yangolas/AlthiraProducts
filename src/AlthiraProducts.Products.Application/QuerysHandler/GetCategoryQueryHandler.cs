@@ -28,11 +28,10 @@ public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, IEnumer
 
     public async Task<IEnumerable<CategoryDto>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
     {
-        _openTelemetryService.AddStep("Handling GetCategoryQuery");
         _openTelemetryService.AddStep("Fetching categories from Read Repository");
         IEnumerable<CategoryReadModel> categoriesReadModel = await _categoryRepositoryRead.GetCategoriesAsync();
 
-        _openTelemetryService.AddCreateProductCommandHandlerMetadata(categoriesReadModel);
+        _openTelemetryService.AddGetCategoryCommandHandlerMetadata(categoriesReadModel);
         IEnumerable<CategoryDto> categoriesDtos = Mapper_CategoryReadModel_CategoryDto.MapToDto(categoriesReadModel);
 
         _logger.LogInformation("GetCategoryQuery executed successfully. Categories found: {Count}",

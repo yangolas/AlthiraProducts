@@ -37,7 +37,7 @@ public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImageWr
 
         builder.Property(x => x.NextRetryAt);
         builder.Property(x => x.ProcessedAt);
-        builder.Property(x => x.CreatedAt)
+        builder.Property(x => x.InsertedAt)
             .IsRequired();
 
         builder.Property(x => x.Error)

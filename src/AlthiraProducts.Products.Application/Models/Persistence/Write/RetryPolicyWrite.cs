@@ -8,14 +8,16 @@ where TStatus : Enum
     public TStatus Status { get; protected set; } = default!;
     public DateTime? NextRetryAt { get; protected set; }
     public DateTime? ProcessedAt { get; protected set; }
-    public DateTime CreatedAt { get; protected set; }
+    public DateTime InsertedAt { get; protected set; }
     public string? Error { get; protected set; }
+    public string? TraceContext { get; protected set; }
 
-    protected void InitializeProcessable(TStatus pendingStatus)
+    protected void InitializeProcessable(TStatus pendingStatus, string? traceContxt = null)
     {
-        CreatedAt = DateTime.UtcNow;
+        InsertedAt = DateTime.UtcNow;
         Status = pendingStatus;
         RetryCount = 0;
+        TraceContext = traceContxt;
     }
 
     protected void RegisterRetry(

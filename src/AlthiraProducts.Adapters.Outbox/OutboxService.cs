@@ -11,6 +11,7 @@ using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
+using System.Text.Json;
 
 namespace AlthiraProducts.Adapters.Outbox;
 
@@ -80,6 +81,12 @@ public class OutboxService : IOutboxService
 
         foreach (OutboxEventWriteModel outboxEvent in outboxEvents)
         {
+            if (!string.IsNullOrEmpty(outboxEvent.TraceContext))
+            {
+                var headers = JsonSerializer.Deserialize<Dictionary<string, object?>>(outboxEvent.TraceContext);
+                _openTelemetryService.ExtractContext(headers!);
+            }
+
             using var activity = _openTelemetryService.StartInternalActivity("ProcessOutboxEvent");
             _openTelemetryService.AddOutboxMetadata(outboxEvent);
             try

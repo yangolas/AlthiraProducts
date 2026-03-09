@@ -32,7 +32,6 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PagedRe
 
     public async Task<PagedResult<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
-        _openTelemetryService.AddStep("Handling GetProductsQuery");
         _openTelemetryService.AddStep("Fetching products from Read Repository");
         _openTelemetryService.AddGetProductCommandHandlerMetadata(request);
 
@@ -58,7 +57,6 @@ public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PagedRe
         _logger.LogInformation("GetProductsQuery processed. Page: {Page}, Results: {Count}",
             request.PagedRequest.Page, 
             productsReadRepository.Count());
-        _openTelemetryService.AddStep("Query results ready");
 
         return pagedResult;
     }

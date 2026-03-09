@@ -236,7 +236,7 @@ public abstract class RabbitConsumerContext
         if (nextRetryLevel <= _maxRetryAttempts)
         {
             string nextRetryRoutingKey = $"{_channelSettings.RoutingKey}.retry.{nextRetryLevel}";
-            _openTelemetryService.AddConsumerBrokerRetryMetadata(nextRetryLevel, nextRetryRoutingKey);
+            _openTelemetryService.AddConsumerBrokerRetryMetadata(@event, nextRetryLevel, nextRetryRoutingKey);
 
             // Publish meesage to next retry queue
             await channel.BasicPublishAsync(
@@ -260,11 +260,11 @@ public abstract class RabbitConsumerContext
         }
         else
         {
-            _openTelemetryService.AddConsumerBrokerDLQMetadata();
             _openTelemetryService.AddError("Max retry attempts reached");
             // Max retries → Deade letter queue
             await channel.BasicNackAsync(@event.DeliveryTag, multiple: false, requeue: false);
             
+            _openTelemetryService.AddConsumerBrokerDLQMetadata(@event, _maxRetryAttempts);
             _logger.LogCritical("Message failed permanently. Max retries reached ({MaxRetries}). Sent to DLQ. CorrelationId: {CorrelationId}",
             _maxRetryAttempts, @event.BasicProperties.CorrelationId);
 

@@ -18,14 +18,18 @@ where TRequest : IRequest<TResponse>
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var requestName = typeof(TRequest).Name;
+        string requestName = typeof(TRequest).Name;
 
         _telemetryService.AddStep($"MediatR: {requestName}");
         _telemetryService.AddTag("mediatr.request", requestName);
 
+
         try
         {
-            return await next();
+            TResponse response = await next();
+            _telemetryService.AddStep($"MediatR: Success {requestName}");
+            _telemetryService.AddTag("mediatr.handler.state", "completed");
+            return response;
         }
         catch (Exception ex)
         {
