@@ -24,3 +24,9 @@ stages:
         tags: |
           $(Build.BuildId)
           latest
+    - task: Kubernetes@1
+      displayName: 'Update Kubernetes'
+      inputs:
+        connectionType: 'None'
+        command: 'rollout'
+        arguments: 'restart deployment althira-products-api'

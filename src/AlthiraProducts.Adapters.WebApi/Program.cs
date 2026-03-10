@@ -43,13 +43,13 @@ public class WebApi
     public Task StartAsync()
     {
         var app = _builder.Build();
-        if (app.Environment.IsDevelopment())
-        {
+        //if (app.Environment.IsDevelopment())
+        //{
             app.UseSwagger();
             app.UseSwaggerUI();
             var url = "http://localhost:5000/swagger/index.html";
             Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
-        }
+        //}
         app.UseCors("AlthiraCors");
         app.UseHttpsRedirection();
         app.UseAuthentication();
