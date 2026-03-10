@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: products-api
-        image: yangolas/althiraproducts:latest # La que acabas de subir
+        image: yangolas/althira-products:latest # La que acabas de subir
         imagePullPolicy: Always # Para que siempre intente bajar la última de Docker Hub
         ports:
         - containerPort: 80
