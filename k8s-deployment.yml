@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: althira-products-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: althira-products
+  template:
+    metadata:
+      labels:
+        app: althira-products
+    spec:
+      containers:
+      - name: products-api
+        image: yangolas/althiraproducts:latest # La que acabas de subir
+        imagePullPolicy: Always # Para que siempre intente bajar la última de Docker Hub
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: althira-products-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: althira-products
+  ports:
+    - protocol: TCP
+      port: 8080    # Puerto que usarás en el navegador: http://localhost:8080
+      targetPort: 80 # Puerto interno de la app
