@@ -16,7 +16,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<CategoryWriteModel
                .IsRequired()
                .ValueGeneratedNever();
 
-        builder.Property(c => c.DeparmentName)
+        builder.Property(c => c.DepartmentName)
                .IsRequired()
                .HasMaxLength(150);
     }

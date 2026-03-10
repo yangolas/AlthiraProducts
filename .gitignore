@@ -362,3 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /MicroservicesOfertas.Domain/efpt.config.json
+
+# Azurite local storage
+__azurite_db_*__.json
+__blobstorage__
+__queuestorage__
+__tablestorage__

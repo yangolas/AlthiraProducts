@@ -1,10 +1,10 @@
 ﻿using AlthiraProducts.Adapters.Repository.Write.Context;
+using AlthiraProducts.Adapters.Repository.Write.SeedData;
 using AlthiraProducts.Adapters.Repository.Write.Settings;
 using AlthiraProducts.BuildingBlocks.Application.Ports.ServiceRegistration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace AlthiraProducts.Adapters.Repository.Write;
@@ -37,5 +37,13 @@ public static class ServiceRegister
             .AsImplementedInterfaces()
             .WithTransientLifetime()
         );
+    }
+
+    public static async Task ApplyMigrationsDbWriteAsync(this IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        ProductWriteContext context = scope.ServiceProvider.GetRequiredService<ProductWriteContext>();
+        await context.Database.MigrateAsync();
+        await SeedDataCategoryWrite.AddSeedData(context);
     }
 }

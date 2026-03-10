@@ -40,7 +40,7 @@ public class WebApi
         }
     }
 
-    public Task StartAsync()
+    public Task Start()
     {
         var app = _builder.Build();
         if (app.Environment.IsDevelopment())

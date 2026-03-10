@@ -3,6 +3,6 @@
 public class CategoryWriteModel 
 {
     public Guid Id { get; set; }
-    public string DeparmentName { get; set; } = null!;
+    public string DepartmentName { get; set; } = null!;
 
 }

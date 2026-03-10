@@ -1,22 +1,8 @@
-﻿using AlthiraProducts.Adapters.AzureBlobStorage;
-using AlthiraProducts.Adapters.AzureBlobStorageProcess;
-using AlthiraProducts.Adapters.AzureBlobStorageProcess.HostInfraestructure;
-using AlthiraProducts.Adapters.ImagesValidator;
-using AlthiraProducts.Adapters.MessageBroker.Consumer.HostInfraestructure;
-using AlthiraProducts.Adapters.MessageBroker.Consumer.ServicesRegister;
-using AlthiraProducts.Adapters.MessageBroker.Publisher.ServicesRegister;
-using AlthiraProducts.Adapters.OpenTelemetry;
-using AlthiraProducts.Adapters.Outbox;
-using AlthiraProducts.Adapters.Outbox.HostInfraestructure;
-using AlthiraProducts.Adapters.Outbox.Settings;
-using AlthiraProducts.Adapters.Repository.Read.Services;
-using AlthiraProducts.Adapters.Repository.Write;
-using AlthiraProducts.Adapters.WebApi;
-using AlthiraProducts.BuildingBlocks.Application.Settings;
-using AlthiraProducts.Products.Application;
+﻿using AlthiraProducts.Main.Process;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System.Globalization;
+
 
 var cultureInfo = CultureInfo.InvariantCulture;
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
@@ -32,53 +18,36 @@ IConfigurationRoot configurationRoot = builder.Build();
 IConfigurationSection configurationSection = configurationRoot.GetSection("Config");
 AlthiraProductsSettings config = configurationSection.Get<AlthiraProductsSettings>()!;
 
-IServiceCollection servicesApi = new ServiceCollection();
-servicesApi.Configure<AlthiraProductsSettings>(configurationSection);
-servicesApi.AddOpenTelemetry(config.OpenTelemetry.WebApiName, config.OpenTelemetry.ConnectionString);
-servicesApi.AddPublisherBroker(config.MessageBroker, config.Events);//One publisher per Bounde context, N events contains per Bounded Context
-servicesApi.AddRepositoryContextRead(config.DatabaseRead);
-servicesApi.AddRepositoryRead(config.Assembly.AssemblyRepositoryRead);
-servicesApi.AddRepositoryContextWrite(config.DatabaseWrite);
-servicesApi.AddImageValidator(config.Assembly.AssemblyImageValidator);
-servicesApi.AddRepositoryWrite(config.Assembly.AssemblyRepositoryWrite);
-servicesApi.AddAzureBlobStorageService(config.AzureBlobStorage);
-servicesApi.AddApplicationProduct(config.Assembly.AssemblyApplicationProduct);
+string startProcess = args.Length > 0 ? args[0] : config.StartProcess.DebugAllProcess;
 
-WebApi webApi = new();
-webApi.Configure(servicesApi);
+Task runTask = startProcess switch
+{
+    string @case when @case.Equals(config.StartProcess.WebApi, StringComparison.OrdinalIgnoreCase)
+        => WebApiProcess.Start(configurationSection, config),
 
-IServiceCollection servicesConsumerBrokerMessage = new ServiceCollection();
-servicesConsumerBrokerMessage.Configure<AlthiraProductsSettings>(configurationSection);
-servicesConsumerBrokerMessage.AddOpenTelemetry(config.OpenTelemetry.ConsumerBrokerName, config.OpenTelemetry.ConnectionString);
-servicesConsumerBrokerMessage.AddApplicationProduct(config.Assembly.AssemblyApplicationProduct);
-servicesConsumerBrokerMessage.AddHostedConsumerBroker(config.MessageBroker, config.Events);
-servicesConsumerBrokerMessage.AddRepositoryContextRead(config.DatabaseRead);
-servicesConsumerBrokerMessage.AddRepositoryRead(config.Assembly.AssemblyRepositoryRead);
+    string @case when @case.Equals(config.StartProcess.Consumer, StringComparison.OrdinalIgnoreCase)
+        => ConsumerProcess.Start(configurationSection, config),
 
-IServiceCollection servicesOutboxWorker = new ServiceCollection();
-servicesOutboxWorker.Configure<OutboxSettings>(configurationSection.GetSection("Outbox"));
-servicesOutboxWorker.AddOpenTelemetry(config.OpenTelemetry.OutboxWorkerName, config.OpenTelemetry.ConnectionString);
-servicesOutboxWorker.AddRepositoryContextWrite(config.DatabaseWrite);
-servicesOutboxWorker.AddRepositoryWrite(config.Assembly.AssemblyRepositoryWrite);
-servicesOutboxWorker.AddOutboxPublisherBroker(config.MessageBroker, config.Events);
-servicesOutboxWorker.AddOutboxWorker();
+    string @case when @case.Equals(config.StartProcess.Outbox, StringComparison.OrdinalIgnoreCase)
+        => OutboxProcess.Start(configurationSection, config),
 
-IServiceCollection servicesAzureStorageBlobWorker = new ServiceCollection();
-servicesAzureStorageBlobWorker.Configure<AzureBlobStorageSettings>(configurationSection.GetSection("AzureBlobStorage"));
-servicesAzureStorageBlobWorker.AddOpenTelemetry(config.OpenTelemetry.AzureBlobStorageWorkerName, config.OpenTelemetry.ConnectionString);
-servicesAzureStorageBlobWorker.AddAzureBlobStorageService(config.AzureBlobStorage);
-servicesAzureStorageBlobWorker.AddAzureBlobStorageProcess();
-servicesAzureStorageBlobWorker.AddRepositoryContextWrite(config.DatabaseWrite);
-servicesAzureStorageBlobWorker.AddRepositoryWrite(config.Assembly.AssemblyRepositoryWrite);
+    string @case when @case.Equals(config.StartProcess.Image, StringComparison.OrdinalIgnoreCase)
+        => ImageProcess.Start(configurationSection, config),
+   
+    string @case when @case.Equals(config.StartProcess.Migration, StringComparison.OrdinalIgnoreCase)
+        => DbMigrationProcess.Start(config),
 
+    _ => Task.WhenAll(
+            WebApiProcess.Start(configurationSection, config),
+            ConsumerProcess.Start(configurationSection, config),
+            OutboxProcess.Start(configurationSection, config),
+            ImageProcess.Start(configurationSection, config)
+         )
+};
 
-Task webApiTask = webApi.StartAsync();
-Task consumerBrokerTask = StartConsumerBrokerWorker.Main(servicesConsumerBrokerMessage);// One Worker per Bounded Context, N Consumers per Bounded Context 
-Task outboxTask = StartOutboxWorker.Main(servicesOutboxWorker);//One worker per db context
-Task azureBlobStorageTask = StartAzureBloStorageWorker.Main(servicesAzureStorageBlobWorker);//One worker per db context
+if (!configurationRoot.Services.GetRequiredService<IHostEnvironment>().IsDevelopment())
+{
+    await configurationRoot.Services.ApplyMigrations();
+}
 
-await Task.WhenAll(
-    webApiTask, 
-    consumerBrokerTask,
-    outboxTask,
-    azureBlobStorageTask);
+await runTask;

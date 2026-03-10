@@ -1,6 +1,8 @@
 ﻿using AlthiraProducts.Adapters.Repository.Read.Context;
+using AlthiraProducts.Adapters.Repository.Read.SeedData;
 using AlthiraProducts.Adapters.Repository.Read.Settings;
 using AlthiraProducts.BuildingBlocks.Application.Ports.ServiceRegistration;
+using AlthiraProducts.Products.Application.Models.Persistence.Read;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -29,4 +31,10 @@ public static class ServiceRegister
             .WithTransientLifetime()
         );
     }
+
+    public static async Task ApplyMigrationsDbReadAsync(this IServiceProvider services) 
+    {
+        await SeedDataCategoryRead.AddSeedDataAsync(services);
+    }
+
 }
