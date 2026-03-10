@@ -49,7 +49,7 @@ public class WebApi
             app.UseSwaggerUI();
             var url = "http://localhost:5000/swagger/index.html";
             Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
-        //}
+        //} 
         app.UseCors("AlthiraCors");
         app.UseHttpsRedirection();
         app.UseAuthentication();
