@@ -29,4 +29,4 @@ stages:
       inputs:
         connectionType: 'None'
         command: 'rollout'
-        arguments: 'restart deployment althira-products-api'
+        arguments: 'restart deployment althira-products'
