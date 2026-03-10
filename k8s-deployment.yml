@@ -18,6 +18,8 @@ spec:
         imagePullPolicy: Always # Para que siempre intente bajar la última de Docker Hub
         ports:
         - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
 ---
 apiVersion: v1
 kind: Service
