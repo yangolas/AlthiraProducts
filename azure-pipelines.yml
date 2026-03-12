@@ -28,21 +28,12 @@ stages:
           latest
 
     - powershell: |
-            # Buscamos la carpeta que contiene el Chart.yaml de forma dinámica
+            # Buscamos la carpeta y lanzamos el comando
             $chartPath = Get-ChildItem -Path $(System.DefaultWorkingDirectory) -Filter "Chart.yaml" -Recurse | Select-Object -ExpandProperty DirectoryName -First 1
-            
-            if ($null -eq $chartPath) {
-                Write-Error "No se encontró la carpeta del Chart de Helm en $(System.DefaultWorkingDirectory)"
-                exit 1
-            }
-
-            Write-Host "Carpeta del Chart detectada en: $chartPath"
             cd $chartPath
 
-            # Ahora ejecutamos Helm desde la carpeta correcta
-            # Nota: Como ya estamos en 'k8s/Charts', el path al chart es '.'
             helm upgrade --install althira-products . `
               --values ./values-dev.yaml `
               --set image.tag=$(Build.BuildId) `
               --namespace althira-products
-      displayName: 'Deploy con Helm Local (Auto-detectado)'
+      displayName: 'Deploy con Helm Local'
