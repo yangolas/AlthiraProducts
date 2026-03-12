@@ -30,8 +30,12 @@ stages:
     # 2. Deploy directo usando tu Helm local
     # No necesitamos Service Connection porque el agente usa tu config de K8s
     - powershell: |
-        helm upgrade --install althira-products k8s/Charts `
-          --values k8s/Charts/values-dev.yaml `
+        # Nos movemos a la carpeta donde está el código
+        cd $(System.DefaultWorkingDirectory)
+        
+        # Ejecutamos Helm indicando la ruta completa al Chart
+        helm upgrade --install althira-products ./k8s/Charts `
+          --values ./k8s/Charts/values-dev.yaml `
           --set image.tag=$(Build.BuildId) `
           --namespace althira-products
       displayName: 'Deploy con Helm Local'
