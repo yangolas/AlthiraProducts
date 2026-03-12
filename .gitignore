@@ -371,3 +371,4 @@ __tablestorage__
 
 # Kubernetes Secrets (Seguridad)
 **/k8s/config/althira-products-secrets.yml
+**/k8s/config/althira-products-secrets-text-plain.yml
