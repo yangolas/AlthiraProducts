@@ -27,17 +27,22 @@ stages:
           $(Build.BuildId)
           latest
 
-    # 2. Deploy directo usando tu Helm local
-    # No necesitamos Service Connection porque el agente usa tu config de K8s
     - powershell: |
-        # Verificamos dónde estamos y qué hay (esto ayuda a debuguear)
-        Write-Host "Directorio actual: $(System.DefaultWorkingDirectory)"
-        ls $(System.DefaultWorkingDirectory)
+            # Buscamos la carpeta que contiene el Chart.yaml de forma dinámica
+            $chartPath = Get-ChildItem -Path $(System.DefaultWorkingDirectory) -Filter "Chart.yaml" -Recurse | Select-Object -ExpandProperty DirectoryName -First 1
+            
+            if ($null -eq $chartPath) {
+                Write-Error "No se encontró la carpeta del Chart de Helm en $(System.DefaultWorkingDirectory)"
+                exit 1
+            }
 
-        # Usamos la ruta relativa desde la raíz del repo
-        # Asegúrate de que las mayúsculas/minúsculas coincidan con tu Git
-        helm upgrade --install althira-products ./k8s/Charts `
-          --values ./k8s/Charts/values-dev.yaml `
-          --set image.tag=$(Build.BuildId) `
-          --namespace althira-products
-      displayName: 'Deploy con Helm Local'
+            Write-Host "Carpeta del Chart detectada en: $chartPath"
+            cd $chartPath
+
+            # Ahora ejecutamos Helm desde la carpeta correcta
+            # Nota: Como ya estamos en 'k8s/Charts', el path al chart es '.'
+            helm upgrade --install althira-products . `
+              --values ./values-dev.yaml `
+              --set image.tag=$(Build.BuildId) `
+              --namespace althira-products
+      displayName: 'Deploy con Helm Local (Auto-detectado)'
