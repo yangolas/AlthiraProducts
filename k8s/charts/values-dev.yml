@@ -1,0 +1,60 @@
+# Configuración Global
+namespace: althira-products
+appName: althira-products
+
+image:
+  repository: yangolas/althira-products
+  tag: latest # Azure DevOps lo pisa con el BuildId
+  pullPolicy: Always
+
+dbMigration:
+  enabled: true
+
+# --- ESTA ES LA PARTE QUE TE FALTABA ---
+# Estos valores rellenan tu configmap.yaml
+config:
+  aspnetEnv: "Development"
+  logLevel: "Information"
+  outbox:
+    batchSize: "100"
+    interval: "00:01:00"
+    maxRetry: "3"
+    initialDelay: "00:00:03"
+    backoff: "2"
+  blob:
+    workerBatchSize: "100"
+    interval: "00:01:00"
+    maxRetry: "3"
+    initialDelay: "00:00:03"
+    backoff: "2"
+
+# El nombre del secreto que ya creaste en K8s (p.ej. con kubectl)
+secretName: "althira-products-secrets"
+
+# Lista de componentes (Tus 4 procesos)
+components:
+  - name: api
+    arg: "webapi"
+    port: 80
+    replicaCount: 1
+
+  - name: worker-consumer
+    arg: "consumer"
+    replicaCount: 1
+    resources:
+      requests: { cpu: "100m", memory: "256Mi" }
+      limits: { cpu: "300m", memory: "512Mi" }
+
+  - name: worker-outbox
+    arg: "outbox"
+    replicaCount: 1
+    resources:
+      requests: { cpu: "50m", memory: "128Mi" }
+      limits: { cpu: "200m", memory: "256Mi" }
+
+  - name: worker-image
+    arg: "image"
+    replicaCount: 1
+    resources:
+      requests: { cpu: "200m", memory: "512Mi" }
+      limits: { cpu: "1000m", memory: "1Gi" }

@@ -6,6 +6,8 @@ pool:
 
 variables:
   imageName: 'althira-products'
+  # Es mejor definir el repo aquí para no repetirlo
+  dockerRepo: 'yangolas/$(imageName)'
 
 stages:
 - stage: Build
@@ -13,22 +15,23 @@ stages:
   jobs:
   - job: Build
     steps:
+    # 1. Construir y subir la imagen (Perfecto como lo tenías)
     - task: Docker@2
       displayName: 'Build and Push to Docker Hub'
       inputs:
         containerRegistry: 'dockerhub-althira'
-        repository: 'yangolas/$(imageName)'
+        repository: '$(dockerRepo)'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         buildContext: '.'
         tags: |
           $(Build.BuildId)
           latest
-    - task: KubernetesManifest@0
-      displayName: 'Deploy to Kubernetes'
-      inputs:
-        action: deploy
-        manifests: |
-          k8s-deployment.yml
-        containers: |
-          yangolas/$(imageName):$(Build.BuildId)
+
+    - powershell: |
+        # Helm upgrade directo usando tu configuración local
+        helm upgrade --install althira-products k8s/Charts `
+          --values k8s/Charts/values-dev.yaml `
+          --set image.tag=$(Build.BuildId) `
+          --namespace althira-products
+      displayName: 'Deploy con Helm Local'

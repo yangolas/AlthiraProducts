@@ -1,0 +1,10 @@
+apiVersion: v2
+name: althira-products
+description: Helm chart microservice althira products
+type: application
+
+# Versión del Chart (cambia cada vez que tocas el YAML)
+version: 0.1.0
+
+# Versión de tu App (la versión de tu código C# / imagen Docker)
+appVersion: "1.0.0"

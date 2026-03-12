@@ -1,0 +1,48 @@
+{{- range .Values.components }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}
+  namespace: {{ $.Values.namespace | default "althira-products" }}
+spec:
+  replicas: {{ .replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ $.Values.appName | default "althira-products" }}
+      component: {{ .name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $.Values.appName | default "althira-products" }}
+        component: {{ .name }}
+    spec:
+      {{- if $.Values.dbMigration.enabled }}
+      initContainers:
+      - name: db-migration
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+        args: ["migration"]
+        envFrom:
+        - configMapRef:
+            name: {{ $.Release.Name }}-config
+        - secretRef:
+            name: {{ $.Release.Name }}-secrets
+      {{- end }}
+      containers:
+      - name: {{ .name }}
+        image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+        args: ["{{ .arg }}"]
+        {{- if .port }}
+        ports:
+        - containerPort: {{ .port }}
+        {{- end }}
+        envFrom:
+        - configMapRef:
+            name: {{ $.Release.Name }}-config
+        - secretRef:
+            name: {{ $.Release.Name }}-secrets
+        {{- if .resources }}
+        resources:
+          {{- toYaml .resources | nindent 10 }}
+        {{- end }}
+{{- end }}
