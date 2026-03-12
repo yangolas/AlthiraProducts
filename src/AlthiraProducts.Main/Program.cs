@@ -45,9 +45,4 @@ Task runTask = startProcess switch
          )
 };
 
-if (!configurationRoot.Services.GetRequiredService<IHostEnvironment>().IsDevelopment())
-{
-    await configurationRoot.Services.ApplyMigrations();
-}
-
 await runTask;

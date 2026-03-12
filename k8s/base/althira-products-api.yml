@@ -1,0 +1,40 @@
+# ---------------------------------------------------------
+#  WEB API
+# ---------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: althira-products-api
+  namespace: althira-products
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: althira-products
+      component: api
+  template:
+    metadata:
+      labels:
+        app: althira-products
+        component: api
+    spec:
+      initContainers:
+      - name: db-migration
+        image: yangolas/althira-products:$(Build.BuildId)
+        args: ["migration"]
+        envFrom:
+        - configMapRef:
+            name: althira-products-config
+        - secretRef:
+            name: althira-products-secrets
+      containers:
+      - name: api
+        image: yangolas/althira-products:$(Build.BuildId)
+        args: ["webapi"] 
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: althira-products-config
+        - secretRef:
+            name: althira-products-secrets

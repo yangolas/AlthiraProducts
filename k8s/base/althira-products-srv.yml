@@ -1,0 +1,18 @@
+# -------------------------------------------------------
+# SERVICE WEB API
+# -------------------------------------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: althira-products-api-srv
+  namespace: althira-products
+spec:
+  type: ClusterIP
+  selector:
+    app: althira-products
+    component: api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80

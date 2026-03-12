@@ -24,9 +24,11 @@ stages:
         tags: |
           $(Build.BuildId)
           latest
-    - task: Kubernetes@1
-      displayName: 'Update Kubernetes'
+    - task: KubernetesManifest@0
+      displayName: 'Deploy to Kubernetes'
       inputs:
-        connectionType: 'None'
-        command: 'rollout'
-        arguments: 'restart deployment althira-products'
+        action: deploy
+        manifests: |
+          k8s-deployment.yml
+        containers: |
+          yangolas/$(imageName):$(Build.BuildId)

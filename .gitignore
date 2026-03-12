@@ -368,3 +368,6 @@ __azurite_db_*__.json
 __blobstorage__
 __queuestorage__
 __tablestorage__
+
+# Kubernetes Secrets (Seguridad)
+**/k8s/config/althira-products-secrets.yml
