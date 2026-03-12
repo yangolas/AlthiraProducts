@@ -2,6 +2,10 @@
 namespace: althira-products
 appName: althira-products
 
+service:
+  type: ClusterIP
+  port: 80
+  
 image:
   repository: yangolas/althira-products
   tag: latest # Azure DevOps lo pisa con el BuildId
