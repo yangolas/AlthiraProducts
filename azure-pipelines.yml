@@ -28,12 +28,18 @@ stages:
           latest
 
     - powershell: |
-            # Buscamos la carpeta y lanzamos el comando
-            $chartPath = Get-ChildItem -Path $(System.DefaultWorkingDirectory) -Filter "Chart.yaml" -Recurse | Select-Object -ExpandProperty DirectoryName -First 1
-            cd $chartPath
+        # 1. Buscamos la carpeta del Chart
+        $chartPath = Get-ChildItem -Path $(System.DefaultWorkingDirectory) -Filter "Chart.yaml" -Recurse | Select-Object -ExpandProperty DirectoryName -First 1
+        Write-Host "Cambiando a directorio: $chartPath"
+        cd $chartPath
 
-            helm upgrade --install althira-products . `
-              --values ./values-dev.yaml `
-              --set image.tag=$(Build.BuildId) `
-              --namespace althira-products
+        # 2. Listamos para estar seguros de qué archivos hay
+        ls
+
+        # 3. Ejecutamos Helm
+        # IMPORTANTE: Verifica si es .yaml o .yml
+        helm upgrade --install althira-products . `
+          --values ./values-dev.yaml `
+          --set image.tag=$(Build.BuildId) `
+          --namespace althira-products
       displayName: 'Deploy con Helm Local'
