@@ -2,22 +2,21 @@ trigger:
 - main
 
 pool:
-  name: 'Default'
+  name: 'Default' # Tu agente local en tu PC
 
 variables:
   imageName: 'althira-products'
-  # Es mejor definir el repo aquí para no repetirlo
   dockerRepo: 'yangolas/$(imageName)'
 
 stages:
 - stage: Build
-  displayName: 'Build and Push Docker Image'
+  displayName: 'Build and Push'
   jobs:
   - job: Build
     steps:
-    # 1. Construir y subir la imagen (Perfecto como lo tenías)
+    # 1. Build y Push a Docker Hub (Esto ya te funcionaba)
     - task: Docker@2
-      displayName: 'Build and Push to Docker Hub'
+      displayName: 'Build and Push'
       inputs:
         containerRegistry: 'dockerhub-althira'
         repository: '$(dockerRepo)'
@@ -28,8 +27,9 @@ stages:
           $(Build.BuildId)
           latest
 
+    # 2. Deploy directo usando tu Helm local
+    # No necesitamos Service Connection porque el agente usa tu config de K8s
     - powershell: |
-        # Helm upgrade directo usando tu configuración local
         helm upgrade --install althira-products k8s/Charts `
           --values k8s/Charts/values-dev.yaml `
           --set image.tag=$(Build.BuildId) `
