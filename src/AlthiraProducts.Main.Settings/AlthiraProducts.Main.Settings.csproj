@@ -27,6 +27,7 @@
     <ProjectReference Include="..\AlthiraProducts.Adapters.Outbox\AlthiraProducts.Adapters.Outbox.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Read\AlthiraProducts.Adapters.Repository.Read.csproj" />
     <ProjectReference Include="..\AlthiraProducts.Adapters.Repository.Write\AlthiraProducts.Adapters.Repository.Write.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Adapters.WebApi\AlthiraProducts.Adapters.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

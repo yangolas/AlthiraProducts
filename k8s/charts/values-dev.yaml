@@ -19,6 +19,8 @@ dbMigration:
 config:
   aspnetEnv: "Development"
   logLevel: "Information"
+  cors:
+    AllowedOrigins: "http://tu-app-k8s.com"
   outbox:
     batchSize: "100"
     interval: "00:01:00"

@@ -7,6 +7,7 @@ using AlthiraProducts.Main.Settings.Models;
 public class AlthiraProductsSettings
 {
     public StartProcessSettings StartProcess { get; set; } = null!;
+    public CorsSettings Cors { get; set; } = null!;
     public OpenTelemetrySettings OpenTelemetry { get; set; } = null!;
     public DatabaseReadSettings DatabaseRead { get; set; } = null!;
     public DatabaseWriteSettings DatabaseWrite { get; set; } = null!;

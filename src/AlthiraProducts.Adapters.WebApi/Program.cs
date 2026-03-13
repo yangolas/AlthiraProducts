@@ -20,7 +20,7 @@ public class WebApi
         );
     }
 
-    public void Configure(IServiceCollection services)
+    public void Configure(IServiceCollection services , CorsSettings corsSettings)
     {
         _builder.Services.AddControllers();
         _builder.Services.AddEndpointsApiExplorer();
@@ -29,7 +29,7 @@ public class WebApi
         {
             options.AddPolicy("AlthiraCors", policy =>
             {
-                policy.WithOrigins("http://localhost:4200")
+                policy.WithOrigins(corsSettings.AllowedOrigins)
                       .AllowAnyHeader()
                       .AllowAnyMethod();
             });
