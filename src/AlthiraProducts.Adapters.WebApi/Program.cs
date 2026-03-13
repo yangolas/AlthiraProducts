@@ -47,8 +47,13 @@ public class WebApi
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-            var url = "http://localhost:5000/swagger/index.html";
-            Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
+            bool isWindows = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Windows);
+            bool isContainer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+            if (isWindows && !isContainer)
+            {
+                var url = "http://localhost:5000/swagger/index.html";
+                Process.Start(new ProcessStartInfo { FileName = url, UseShellExecute = true });
+            }
         }
         app.UseCors("AlthiraCors");
         app.UseHttpsRedirection();
