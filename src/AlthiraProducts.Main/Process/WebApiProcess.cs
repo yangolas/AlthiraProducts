@@ -28,7 +28,7 @@ internal static class WebApiProcess
         servicesApi.AddApplicationProduct(config.Assembly.AssemblyApplicationProduct);
 
         WebApi webApi = new();
-        webApi.Configure(servicesApi);
+        webApi.Configure(servicesApi, config.Cors);
         Task webApiTask = webApi.Start();
         return webApiTask;
     }
