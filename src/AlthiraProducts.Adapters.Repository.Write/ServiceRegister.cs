@@ -22,7 +22,7 @@ public static class ServiceRegister
             service.ConfigureWarnings(w => w.Ignore(RelationalEventId.CommandExecuted));
         }
         );
-    }
+    } 
 
     public static void AddRepositoryWrite(
         this IServiceCollection serviceCollection,
