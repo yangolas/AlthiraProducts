@@ -31,5 +31,5 @@ internal static class WebApiProcess
         webApi.Configure(servicesApi);
         Task webApiTask = webApi.Start();
         return webApiTask;
-    } 
+    }
 }
