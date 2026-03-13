@@ -20,7 +20,7 @@ config:
   aspnetEnv: "Development"
   logLevel: "Information"
   cors:
-    allowedOrigins: "https://dev.sellers.althira.com"
+    allowedOrigins: "http://dev.sellers.althira.com"
   outbox:
     batchSize: "100"
     interval: "00:01:00"
