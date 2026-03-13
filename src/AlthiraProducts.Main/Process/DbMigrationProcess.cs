@@ -13,10 +13,7 @@ internal static class DbMigrationProcess
         servicesMigration.AddRepositoryContextWrite(config.DatabaseWrite);
         servicesMigration.AddRepositoryContextRead(config.DatabaseRead);
         IServiceProvider serviceProvider = servicesMigration.BuildServiceProvider();
-        if (!serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-        {
-            await serviceProvider.ApplyMigrationsDbWriteAsync();
-            await serviceProvider.ApplyMigrationsDbReadAsync();
-        }
+        await serviceProvider.ApplyMigrationsDbWriteAsync();
+        await serviceProvider.ApplyMigrationsDbReadAsync();
     }
 }
