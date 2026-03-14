@@ -20,8 +20,7 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     {
         _logger = logger;
         _blobServiceClient = new BlobServiceClient(
-            connectionString,
-            new BlobClientOptions(BlobClientOptions.ServiceVersion.V2023_11_03));
+            connectionString);
         _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
     }
