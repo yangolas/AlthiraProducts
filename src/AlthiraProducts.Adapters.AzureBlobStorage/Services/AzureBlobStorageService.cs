@@ -28,7 +28,7 @@ public class AzureBlobStorageService : IAzureBlobStorageService
 
         // 3. LA URI CLAVE: Fíjate que termina en /devstoreaccount1
         // Esto es lo que sustituye al "PathStyle" que no te compila.
-        var serviceUri = new Uri("http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1");
+        var serviceUri = new Uri("http://10.102.30.133:10000/devstoreaccount1");
 
         // 4. Credenciales explícitas
         var auth = new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey);
