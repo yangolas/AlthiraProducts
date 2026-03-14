@@ -19,6 +19,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: althira-products-api # <-- El nombre exacto de tu Service de .NET
+                name: althira-products-srv # <-- El nombre exacto de tu Service de .NET
                 port:
                   number: 80
