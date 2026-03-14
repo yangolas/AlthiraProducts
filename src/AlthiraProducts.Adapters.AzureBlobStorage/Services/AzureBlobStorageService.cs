@@ -4,7 +4,6 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace AlthiraProducts.Adapters.AzureBlobStorage.Services;
 
@@ -20,10 +19,20 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         string containerName)
     {
         _logger = logger;
-       
-        _blobServiceClient = new BlobServiceClient(
-            connectionString,
-            new BlobClientOptions(BlobClientOptions.ServiceVersion.V2021_08_06));
+
+        // 1. Configuramos las opciones de compatibilidad
+        var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2023_11_03);
+
+        // 2. PARSEO MANUAL: Si no existe PathStyle, forzamos la URI
+        // Esto evita que el SDK añada subdominios en Kubernetes
+        var blobUri = new Uri("http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1");
+        var sharedKeyCredential = new Azure.Storage.StorageSharedKeyCredential(
+            "devstoreaccount1",
+            "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
+        );
+
+        // 3. Creamos el cliente con la URI explícita (esto es el PathStyle manual)
+        _blobServiceClient = new BlobServiceClient(blobUri, sharedKeyCredential, options);
         _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
     }
