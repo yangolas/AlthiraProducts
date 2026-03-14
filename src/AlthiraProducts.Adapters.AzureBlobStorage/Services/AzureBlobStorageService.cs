@@ -20,22 +20,15 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     {
         _logger = logger;
 
-        // 1. Forzamos la versión de API que Azurite 3.35 entiende (esto sigue siendo necesario)
-        var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2023_11_03);
+        // FORZAMOS LA VERSIÓN MÁS ANTIGUA POSIBLE QUE SOPORTE .NET 10
+        // A veces las versiones nuevas envían cabeceras de "Token" que Azurite 3.35 no entiende
+        var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2019_02_02);
 
-        // 2. Extraemos los datos de la cuenta manualmente
-        string accountName = "devstoreaccount1";
-        string accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
+        // USAMOS LA CADENA DIRECTA PARA QUE EL SDK NO "ADIVINE" NADA
+        // Importante: No debe llevar el nombre de la cuenta al final de los endpoints
+        string k8sConnectionString = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1;";
 
-        // 3. LA CLAVE: Construimos la URI exacta del servicio BLOB
-        // En K8s usamos el nombre del servicio DNS
-        var blobServiceUri = new Uri("http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1");
-
-        // 4. Creamos las credenciales
-        var credentials = new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey);
-
-        // 5. Inicializamos el cliente con la URI fija
-        _blobServiceClient = new BlobServiceClient(blobServiceUri, credentials, options);
+        _blobServiceClient = new BlobServiceClient(k8sConnectionString, options);
         _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
     }
