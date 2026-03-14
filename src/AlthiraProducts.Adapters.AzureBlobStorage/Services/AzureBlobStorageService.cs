@@ -4,6 +4,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AlthiraProducts.Adapters.AzureBlobStorage.Services;
 
@@ -19,8 +20,10 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         string containerName)
     {
         _logger = logger;
+       
         _blobServiceClient = new BlobServiceClient(
-            connectionString);
+            connectionString,
+            new BlobClientOptions(BlobClientOptions.ServiceVersion.V2021_08_06));
         _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
     }
