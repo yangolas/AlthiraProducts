@@ -30,24 +30,33 @@ public class AzureBlobStorageService : IAzureBlobStorageService
 
     public async Task UploadBlobAsync(BlobModel blobModel, bool isTemp = false)
     {
-        BlobContainerClient container = GetContainer(isTemp);
-        Console.WriteLine($"[DEBUG] Ejecutando CreateIfNotExistsAsync para el contenedor: {container.AccountName}...");
-        await container.CreateIfNotExistsAsync(PublicAccessType.Blob);
-        Console.WriteLine($"[DEBUG] Contenedor verificado/creado con éxito.");
-
-        BlobClient blob = container.GetBlobClient(blobModel.Name);
-
-        blobModel.Content.Position = 0;
-
-        BlobUploadOptions uploadOptions = new ()
+        try
         {
-            HttpHeaders = new BlobHttpHeaders
-            {
-                ContentType = blobModel.ContentType
-            }
-        };
+            BlobContainerClient container = GetContainer(isTemp);
+            Console.WriteLine($"[DEBUG] Ejecutando CreateIfNotExistsAsync para el contenedor: {container.AccountName}...");
+            await container.CreateIfNotExistsAsync(PublicAccessType.Blob);
+            Console.WriteLine($"[DEBUG] Contenedor verificado/creado con éxito.");
 
-        await blob.UploadAsync(blobModel.Content, uploadOptions);
+            BlobClient blob = container.GetBlobClient(blobModel.Name);
+
+            blobModel.Content.Position = 0;
+
+            BlobUploadOptions uploadOptions = new()
+            {
+                HttpHeaders = new BlobHttpHeaders
+                {
+                    ContentType = blobModel.ContentType
+                }
+            };
+            Console.WriteLine($"[DEBUG] Subida finalizada. URI: {blob.Uri}");
+            await blob.UploadAsync(blobModel.Content, uploadOptions);
+        }
+        catch (Exception ex) {
+            // LOG 3: El error detallado
+            Console.WriteLine($"[ERROR FATAL] Error en UploadAsync: {ex.Message}");
+            Console.WriteLine($"[STACKTRACE] {ex.StackTrace}");
+            throw;
+        }
     }
 
     public async Task UploadBlobsAsync(IEnumerable<BlobModel> blobsModel, bool isTemp = false)
