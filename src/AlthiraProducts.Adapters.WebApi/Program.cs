@@ -29,7 +29,7 @@ public class WebApi
         {
             options.AddPolicy("AlthiraCors", policy =>
             {
-                policy.WithOrigins(corsSettings.AllowedOrigins)
+                policy.WithOrigins()
                       .AllowAnyHeader()
                       .AllowAnyMethod();
             });
