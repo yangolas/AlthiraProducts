@@ -20,16 +20,21 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     {
         _logger = logger;
 
-        // FORZAMOS LA VERSIÓN MÁS ANTIGUA POSIBLE QUE SOPORTE .NET 10
-        // A veces las versiones nuevas envían cabeceras de "Token" que Azurite 3.35 no entiende
-        var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2019_02_02);
+        var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2023_11_03);
 
-        // USAMOS LA CADENA DIRECTA PARA QUE EL SDK NO "ADIVINE" NADA
-        // Importante: No debe llevar el nombre de la cuenta al final de los endpoints
-        string k8sConnectionString = "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1;";
+        // 2. Definimos los datos a mano para que el SDK no intente "adivinar" nada.
+        var accountName = "devstoreaccount1";
+        var accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
 
-        _blobServiceClient = new BlobServiceClient(k8sConnectionString, options);
-        _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
+        // 3. LA URI CLAVE: Fíjate que termina en /devstoreaccount1
+        // Esto es lo que sustituye al "PathStyle" que no te compila.
+        var serviceUri = new Uri("http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1");
+
+        // 4. Credenciales explícitas
+        var auth = new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey);
+
+        // 5. Creamos el cliente usando la URI y las Credenciales (Ignoramos la ConnectionString del secret para esta prueba)
+        _blobServiceClient = new BlobServiceClient(serviceUri, auth, options); _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
     }
 
