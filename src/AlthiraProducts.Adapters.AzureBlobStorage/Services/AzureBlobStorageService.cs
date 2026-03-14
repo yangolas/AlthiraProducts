@@ -20,19 +20,22 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     {
         _logger = logger;
 
-        // 1. Configuramos las opciones de compatibilidad
+        // 1. Forzamos la versión de API que Azurite 3.35 entiende (esto sigue siendo necesario)
         var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2023_11_03);
 
-        // 2. PARSEO MANUAL: Si no existe PathStyle, forzamos la URI
-        // Esto evita que el SDK añada subdominios en Kubernetes
-        var blobUri = new Uri("http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1");
-        var sharedKeyCredential = new Azure.Storage.StorageSharedKeyCredential(
-            "devstoreaccount1",
-            "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
-        );
+        // 2. Extraemos los datos de la cuenta manualmente
+        string accountName = "devstoreaccount1";
+        string accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
 
-        // 3. Creamos el cliente con la URI explícita (esto es el PathStyle manual)
-        _blobServiceClient = new BlobServiceClient(blobUri, sharedKeyCredential, options);
+        // 3. LA CLAVE: Construimos la URI exacta del servicio BLOB
+        // En K8s usamos el nombre del servicio DNS
+        var blobServiceUri = new Uri("http://azurite-srv.althira.svc.cluster.local:10000/devstoreaccount1");
+
+        // 4. Creamos las credenciales
+        var credentials = new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey);
+
+        // 5. Inicializamos el cliente con la URI fija
+        _blobServiceClient = new BlobServiceClient(blobServiceUri, credentials, options);
         _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
     }
