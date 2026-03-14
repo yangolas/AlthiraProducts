@@ -32,7 +32,7 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     {
         BlobContainerClient container = GetContainer(isTemp);
 
-        await container.CreateIfNotExistsAsync();
+        await container.CreateIfNotExistsAsync(PublicAccessType.Blob);
 
         BlobClient blob = container.GetBlobClient(blobModel.Name);
 
