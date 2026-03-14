@@ -46,7 +46,8 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         {
             BlobContainerClient container = GetContainer(isTemp);
             Console.WriteLine($"[DEBUG] Ejecutando CreateIfNotExistsAsync para el contenedor: {container.Name}...");
-            await container.CreateIfNotExistsAsync();
+            await container.CreateIfNotExistsAsync(PublicAccessType.Blob);
+            await container.SetAccessPolicyAsync(PublicAccessType.Blob);
             Console.WriteLine($"[DEBUG] Contenedor verificado/creado con éxito.");
 
             BlobClient blob = container.GetBlobClient(blobModel.Name);
