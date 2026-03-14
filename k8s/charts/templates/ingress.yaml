@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: althira-products-api-ingress
+  namespace: althira-products # <-- El namespace de tu API de productos
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # Configuramos el Ingress para que responda a las peticiones OPTIONS (CORS)
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "http://dev.sellers.althira.com"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+spec:
+  rules:
+    - host: dev.products.althira.com # <-- Una URL pública para el backend
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: althira-products-api # <-- El nombre exacto de tu Service de .NET
+                port:
+                  number: 80
