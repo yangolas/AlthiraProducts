@@ -28,6 +28,7 @@ config:
     initialDelay: "00:00:03"
     backoff: "2"
   blob:
+    name: "product-images"
     workerBatchSize: "100"
     interval: "00:01:00"
     maxRetry: "3"

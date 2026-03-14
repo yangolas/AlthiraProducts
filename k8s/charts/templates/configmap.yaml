@@ -13,8 +13,8 @@ data:
   Config__Outbox__RetryPolicy__MaxRetryAttempts: {{ .Values.config.outbox.maxRetry | quote }}
   Config__Outbox__RetryPolicy__InitialDelay: {{ .Values.config.outbox.initialDelay | quote }}
   Config__Outbox__RetryPolicy__BackoffMultiplier: {{ .Values.config.outbox.backoff | quote }}
-  Config__AzureBlobStorage__ProductImageBlobContainer__WorkerBatchSize: {{ .Values.config.blob.workerBatchSize | quote }}
-  Config__AzureBlobStorage__ProductImageBlobContainer__IntervalToPolling: {{ .Values.config.blob.interval | quote }}
+  Config__AzureBlobStorage__ProductImageBlobContainer__Name: {{ .Values.config.blob.workerBatchSize | quote }}
+  Config__AzureBlobStorage__ProductImageBlobContainer__IntervalToPolling: {{ .Values.config.blob.name | quote }}
   Config__AzureBlobStorage__ProductImageBlobContainer__RetryPolicy__MaxRetryAttempts: {{ .Values.config.blob.maxRetry | quote }}
   Config__AzureBlobStorage__ProductImageBlobContainer__RetryPolicy__InitialDelay: {{ .Values.config.blob.initialDelay | quote }}
   Config__AzureBlobStorage__ProductImageBlobContainer__RetryPolicy__BackoffMultiplier: {{ .Values.config.blob.backoff | quote }}
