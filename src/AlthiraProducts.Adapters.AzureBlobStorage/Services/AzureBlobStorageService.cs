@@ -133,10 +133,10 @@ public class AzureBlobStorageService : IAzureBlobStorageService
 
         return _ingressLocalKubernetes == null
             ? sasUri.ToString()
-            : GetSasUriForLocalKubernetes(sasUri);
+            : GetSasUriForLocalKubernetes(sasUri, containerClient.AccountName);
     }
 
-    private string GetSasUriForLocalKubernetes(Uri sasUri)
+    private string GetSasUriForLocalKubernetes(Uri sasUri, string accountName)
     {
         _ = _ingressLocalKubernetes
             ?? throw new NullReferenceException("Settings for local kubernetes ingress not configured");
@@ -144,7 +144,8 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         var builder = new BlobUriBuilder(sasUri)
         {
             Host = _ingressLocalKubernetes.Host,
-            Port = _ingressLocalKubernetes.Port
+            Port = _ingressLocalKubernetes.Port,
+            AccountName = accountName
         };
 
         return builder.ToUri().ToString();
