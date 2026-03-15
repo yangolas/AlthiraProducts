@@ -19,6 +19,11 @@ dbMigration:
 config:
   aspnetEnv: "Development"
   logLevel: "Information"
+  openTelemetry:
+    webApiName: "AlthiraProducts.WebApi.Kubernetes"
+    consumerBrokerName: "AlthiraProducts.MessageBroker.Consumer.Kubernetes"
+    outbox: "AlthiraProducts.Worker.Outbox.Kubernetes"
+    storage: "AlthiraProducts.Worker.AzureBlobStorage.Kubernetes"
   cors:
     allowedOrigins: "http://dev.sellers.althira.com"
   outbox:
