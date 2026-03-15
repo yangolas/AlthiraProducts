@@ -13,10 +13,11 @@ public static class ServiceRegister
         services.AddSingleton<IProductImageBlobStorageService>(sp =>
         {
             ILogger<ProductImageBlobStorageService> logger = sp.GetRequiredService<ILogger<ProductImageBlobStorageService>>();
+            IngressLocalKubernetesSettings? ingressLocalKubernetesSettings = azureBlobStorageSettings.IngressLocalKubernetes;
             string connectionString = azureBlobStorageSettings.ConnectionString;
             string containerName = azureBlobStorageSettings.ProductImageBlobContainer.Name;
 
-            return new ProductImageBlobStorageService(logger, connectionString, containerName);
+            return new ProductImageBlobStorageService(logger, connectionString, containerName, ingressLocalKubernetesSettings);
         });
     }
 }

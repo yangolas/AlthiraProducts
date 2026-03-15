@@ -1,5 +1,6 @@
 ﻿using AlthiraProducts.BuildingBlocks.Application.Models.Blobs;
 using AlthiraProducts.BuildingBlocks.Application.Ports.AzureBlobStorage;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
@@ -13,29 +14,18 @@ public class AzureBlobStorageService : IAzureBlobStorageService
     private readonly BlobServiceClient _blobServiceClient;
     private readonly BlobContainerClient _containerTemp;
     private readonly BlobContainerClient _container;
+    private readonly IngressLocalKubernetesSettings? _ingressLocalKubernetes;
     public AzureBlobStorageService(
         ILogger<AzureBlobStorageService> logger,
         string connectionString,
-        string containerName)
+        string containerName,
+        IngressLocalKubernetesSettings? ingressLocalKubernetesSettings)
     {
         _logger = logger;
-
-        var options = new BlobClientOptions(BlobClientOptions.ServiceVersion.V2023_11_03);
-
-        // 2. Definimos los datos a mano para que el SDK no intente "adivinar" nada.
-        var accountName = "devstoreaccount1";
-        var accountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
-
-        // 3. LA URI CLAVE: Fíjate que termina en /devstoreaccount1
-        // Esto es lo que sustituye al "PathStyle" que no te compila.
-        var serviceUri = new Uri("http://10.102.30.133:10000/devstoreaccount1");
-
-        // 4. Credenciales explícitas
-        var auth = new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey);
-
-        // 5. Creamos el cliente usando la URI y las Credenciales (Ignoramos la ConnectionString del secret para esta prueba)
-        _blobServiceClient = new BlobServiceClient(serviceUri, auth, options); _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
+        _blobServiceClient = new BlobServiceClient(connectionString);
+        _containerTemp = _blobServiceClient.GetBlobContainerClient($"{containerName}-temp");
         _container = _blobServiceClient.GetBlobContainerClient(containerName);
+        _ingressLocalKubernetes = ingressLocalKubernetesSettings;
     }
 
     private BlobContainerClient GetContainer(bool isTemp) => isTemp ? _containerTemp : _container;
@@ -139,6 +129,23 @@ public class AzureBlobStorageService : IAzureBlobStorageService
 
         sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
-        return blobClient.GenerateSasUri(sasBuilder).ToString();
+        Uri sasUri = blobClient.GenerateSasUri(sasBuilder);
+        return _ingressLocalKubernetes == null
+            ? GetSasUriForLocalKubernetes(sasUri)
+            : sasUri.ToString();
+    }
+
+    private string GetSasUriForLocalKubernetes(Uri sasUri)
+    {
+        _ = _ingressLocalKubernetes
+            ?? throw new NullReferenceException("Settings for local kubernetes ingress not configured");
+
+        var builder = new BlobUriBuilder(sasUri)
+        {
+            Host = _ingressLocalKubernetes.Host,
+            Port = _ingressLocalKubernetes.Port
+        };
+
+        return builder.ToUri().ToString();
     }
 }

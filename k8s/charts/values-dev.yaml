@@ -28,6 +28,9 @@ config:
     initialDelay: "00:00:03"
     backoff: "2"
   blob:
+    ingress:
+      host:"dev-storage-althira-com"
+      port:"80"
     name: "product-images"
     workerBatchSize: "100"
     interval: "00:01:00"
