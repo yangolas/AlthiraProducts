@@ -130,6 +130,7 @@ public class AzureBlobStorageService : IAzureBlobStorageService
         sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
         Uri sasUri = blobClient.GenerateSasUri(sasBuilder);
+        Console.WriteLine($"[DEBUG] ingress host: {_ingressLocalKubernetes?.Host} y el ingress port {_ingressLocalKubernetes?.Port}");
         return _ingressLocalKubernetes == null
             ? GetSasUriForLocalKubernetes(sasUri)
             : sasUri.ToString();
