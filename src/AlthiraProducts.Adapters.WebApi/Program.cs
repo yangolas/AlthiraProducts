@@ -20,7 +20,7 @@ public class WebApi
         );
     }
 
-    public void Configure(IServiceCollection services , CorsSettings corsSettings)
+    public void Configure(IServiceCollection services)
     {
         _builder.Services.AddControllers();
         _builder.Services.AddEndpointsApiExplorer();

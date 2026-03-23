@@ -6,17 +6,15 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "http://dev.sellers.althira.com"
+    nginx.ingress.kubernetes.io/cors-allow-origin: {{ .Values.config.cors.allowedOrigins | quote }}
     nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS, DELETE"
     nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    # Esto fuerza a que las cabeceras se envíen siempre
     nginx.ingress.kubernetes.io/cors-expose-headers: "*"
-    # --- SOLUCIÓN PARA MAYÚSCULAS/MINÚSCULAS ---
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^(?i)/(.*)$ /$1 break;
 spec:
   rules:
-    - host: dev.products.althira.com
+    - host: {{ .Values.config.webApiHost | quote }}
       http:
         paths:
           - path: /

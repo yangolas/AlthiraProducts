@@ -370,4 +370,4 @@ __queuestorage__
 __tablestorage__
 
 # Kubernetes Secrets (Seguridad)
-**/k8s/config/althira-products-secrets.yaml
+**/k8s/config/charts/althira-products-secrets.yaml

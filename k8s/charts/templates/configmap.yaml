@@ -6,7 +6,6 @@ metadata:
 data:
   ASPNETCORE_ENVIRONMENT: {{ .Values.config.aspnetEnv | quote }}
   Config__Logs__LogLevel: {{ .Values.config.logLevel | quote }}
-  # Corregido: Doble guion bajo para que .NET lo mapee bien
   Config__OpenTelemetry__WebApiName: {{ .Values.config.openTelemetry.webApiName | quote }}
   Config__OpenTelemetry__ConsumerBrokerName: {{ .Values.config.openTelemetry.consumerBrokerName | quote }}
   Config__OpenTelemetry__OutboxWorkerName: {{ .Values.config.openTelemetry.outbox | quote }}

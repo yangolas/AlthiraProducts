@@ -1,4 +1,3 @@
-# Configuración Global
 namespace: althira-products
 appName: althira-products
 
@@ -8,17 +7,16 @@ service:
   
 image:
   repository: yangolas/althira-products
-  tag: latest # Azure DevOps lo pisa con el BuildId
+  tag: latest # Azure DevOps override this tag within BuildId
   pullPolicy: Always
 
 dbMigration:
   enabled: true
 
-# --- ESTA ES LA PARTE QUE TE FALTABA ---
-# Estos valores rellenan tu configmap.yaml
 config:
   aspnetEnv: "Development"
   logLevel: "Information"
+  webApiHost: "dev.products.althira.com"
   openTelemetry:
     webApiName: "AlthiraProducts.WebApi.Kubernetes"
     consumerBrokerName: "AlthiraProducts.MessageBroker.Consumer.Kubernetes"
@@ -43,10 +41,6 @@ config:
     initialDelay: "00:00:03"
     backoff: "2"
 
-# El nombre del secreto que ya creaste en K8s (p.ej. con kubectl)
-secretName: "althira-products-secrets"
-
-# Lista de componentes (Tus 4 procesos)
 components:
   - name: api
     arg: "webapi"
