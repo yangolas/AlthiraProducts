@@ -2,11 +2,11 @@ trigger:
 - main
 
 pool:
-  name: 'Default' # Tu agente local en tu PC
+  name: 'Default'
 
 variables:
-  imageName: 'althira-products'
-  dockerRepo: 'yangolas/$(imageName)'
+  appName: 'althira-products'
+  dockerRepo: 'yangolas/$(appName)'
 
 stages:
 - stage: Build
@@ -14,7 +14,6 @@ stages:
   jobs:
   - job: Build
     steps:
-    # 1. Build y Push a Docker Hub (Esto ya te funcionaba)
     - task: Docker@2
       displayName: 'Build and Push'
       inputs:
@@ -28,18 +27,13 @@ stages:
           latest
 
     - powershell: |
-        # 1. Buscamos la carpeta del Chart
+        # 1. Lookin for folder Chart
         $chartPath = Get-ChildItem -Path $(System.DefaultWorkingDirectory) -Filter "Chart.yaml" -Recurse | Select-Object -ExpandProperty DirectoryName -First 1
-        Write-Host "Cambiando a directorio: $chartPath"
         cd $chartPath
 
-        # 2. Listamos para estar seguros de qué archivos hay
-        ls
-
-        # 3. Ejecutamos Helm
-        # IMPORTANTE: Verifica si es .yaml o .yml
-        helm upgrade --install althira-products . `
+        # 2. Execute Helm for DEV
+        helm upgrade --install $(appName) . `
           --values ./values-dev.yaml `
           --set image.tag=$(Build.BuildId) `
-          --namespace althira-products
-      displayName: 'Deploy con Helm Local'
+          --namespace $(appName)
+      displayName: 'Deploy with Local Helm'
