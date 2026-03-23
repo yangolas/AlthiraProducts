@@ -15,5 +15,5 @@ public class AlthiraProductsSettings
     public EventSettings Events { get; set; } = null!;
     public LogSettings Logs { get; set; } = null!;
     public AssemblySettings Assembly { get; set; } = null!;
-    public AzureBlobStorageSettings AzureBlobStorage { get; set; } = null!;
+    public AzureBlobStorageSettings AzureBlobStorage { get; set; } = null!; 
 }
