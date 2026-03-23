@@ -7,6 +7,7 @@ pool:
 variables:
   appName: 'althira-products'
   dockerRepo: 'yangolas/$(appName)'
+  finalTag: $[ coalesce(variables['tag'], variables['Build.BuildId']) ]
 
 stages:
 - stage: Build
@@ -34,6 +35,6 @@ stages:
         # 2. Execute Helm for DEV
         helm upgrade --install $(appName) . `
           --values ./values-dev.yaml `
-          --set image.tag=$(Build.BuildId) `
+          --set image.tag=$(finalTag) `
           --namespace $(appName)
       displayName: 'Deploy with Local Helm'
