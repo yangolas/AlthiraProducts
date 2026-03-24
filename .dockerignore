@@ -24,3 +24,13 @@ Dockerfile
 *.suo
 .DS_Store
 Thumbs.db
+
+# Archivos de publicación local y temporales de MSBuild
+**/publish/
+**/Release/
+**/Debug/
+msvsjson/
+
+# Extensiones de archivos de usuario que VS crea al abrir proyectos
+*.dbmdl
+*.jfm
