@@ -1,6 +1,6 @@
-﻿using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
-using AlthiraProducts.BuildingBlocks.Application.Diagnostic.Telemetry;
+﻿using AlthiraProducts.BuildingBlocks.Application.Diagnostic.Telemetry;
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using static AlthiraProducts.BuildingBlocks.Application.Diagnostic.Telemetry.ConstantTag;
 
 namespace AlthiraProducts.Adapters.Outbox.Diagnostic.Telemetry;

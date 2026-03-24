@@ -1,8 +1,8 @@
-﻿using AlthiraProducts.BoundedContext.Products.Application.Commands;
-using AlthiraProducts.BoundedContext.Products.Application.Models.Dtos.RequestsApi;
-using AlthiraProducts.BoundedContext.Products.Application.Models.Dtos.ResponsesApi;
-using AlthiraProducts.BoundedContext.Products.Application.Querys;
-using AlthiraProducts.BuildingBlocks.Application.Models.Pagination;
+﻿using AlthiraProducts.BuildingBlocks.Application.Models.Pagination;
+using AlthiraProducts.Products.Application.Commands;
+using AlthiraProducts.Products.Application.Models.Dtos.RequestsApi;
+using AlthiraProducts.Products.Application.Models.Dtos.ResponsesApi;
+using AlthiraProducts.Products.Application.Querys;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

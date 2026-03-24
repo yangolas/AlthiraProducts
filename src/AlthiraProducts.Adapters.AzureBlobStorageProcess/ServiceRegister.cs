@@ -1,7 +1,7 @@
 ﻿using AlthiraProducts.Adapters.AzureBlobStorageProcess.HostInfraestructure;
 using AlthiraProducts.Adapters.AzureBlobStorageProcess.Services.Extensions;
-using AlthiraProducts.BoundedContext.Products.Application.Ports.AzureBlobSotageProcess;
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
+using AlthiraProducts.Products.Application.Ports.AzureBlobSotageProcess;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

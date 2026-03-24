@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.BoundedContext.Products.Application.Models.Dtos;
-using AlthiraProducts.BoundedContext.Products.Application.Querys;
+﻿using AlthiraProducts.Products.Application.Models.Dtos;
+using AlthiraProducts.Products.Application.Querys;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

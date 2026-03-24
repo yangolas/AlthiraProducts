@@ -1,5 +1,5 @@
 ﻿using AlthiraProducts.Adapters.Repository.Write.EntityTypeConfiguration;
-using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

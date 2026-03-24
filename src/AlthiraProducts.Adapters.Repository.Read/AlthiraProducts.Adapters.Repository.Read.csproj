@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.BoundedContext.Products.Application\AlthiraProducts.BoundedContext.Products.Application.csproj" />
     <ProjectReference Include="..\AlthiraProducts.BuildingBlocks.Application\AlthiraProducts.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.Products.Application\AlthiraProducts.Products.Application.csproj" />
   </ItemGroup>
 
 </Project>

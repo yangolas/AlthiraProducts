@@ -2,7 +2,7 @@
 using AlthiraProducts.Adapters.MessageBroker.Consumer.ServicesRegister;
 using AlthiraProducts.Adapters.OpenTelemetry;
 using AlthiraProducts.Adapters.Repository.Read.Services;
-using AlthiraProducts.BoundedContext.Products.Application;
+using AlthiraProducts.Products.Application;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

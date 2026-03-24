@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
+﻿using AlthiraProducts.Products.Application.Models.Persistence.Write;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
