@@ -19,6 +19,9 @@ COPY src/ ./src/
 
 # 4. Publish Main Proyecto
 WORKDIR /app
+
+RUN pwd
+RUN ls -R src/AlthiraProducts.Main
 RUN mkdir -p /app/publish
 
 # Usamos el asterisco para que encuentre el csproj esté donde esté en esa carpeta
