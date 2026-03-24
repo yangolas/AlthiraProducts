@@ -5,7 +5,7 @@ using AlthiraProducts.Adapters.OpenTelemetry;
 using AlthiraProducts.Adapters.Repository.Read.Services;
 using AlthiraProducts.Adapters.Repository.Write;
 using AlthiraProducts.Adapters.WebApi;
-using AlthiraProducts.Products.Application;
+using AlthiraProducts.BoundedContext.Products.Application;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

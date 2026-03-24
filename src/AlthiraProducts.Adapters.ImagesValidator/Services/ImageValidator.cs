@@ -1,4 +1,4 @@
-﻿using AlthiraProducts.Products.Application.Ports.ImagesValidator;
+﻿using AlthiraProducts.BoundedContext.Products.Application.Ports.ImagesValidator;
 using Microsoft.AspNetCore.Http;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;

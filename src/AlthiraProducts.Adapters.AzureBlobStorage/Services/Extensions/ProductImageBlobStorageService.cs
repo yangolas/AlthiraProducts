@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.BuildingBlocks.Application.Settings;
-using AlthiraProducts.Products.Application.Ports.AzureBlobStorage;
+﻿using AlthiraProducts.BoundedContext.Products.Application.Ports.AzureBlobStorage;
+using AlthiraProducts.BuildingBlocks.Application.Settings;
 using Microsoft.Extensions.Logging;
 
 namespace AlthiraProducts.Adapters.AzureBlobStorage.Services.Extensions;

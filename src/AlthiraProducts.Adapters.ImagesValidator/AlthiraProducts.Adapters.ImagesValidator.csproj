@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlthiraProducts.Products.Application\AlthiraProducts.Products.Application.csproj" />
+    <ProjectReference Include="..\AlthiraProducts.BoundedContext.Products.Application\AlthiraProducts.BoundedContext.Products.Application.csproj" />
   </ItemGroup>
 
 </Project>

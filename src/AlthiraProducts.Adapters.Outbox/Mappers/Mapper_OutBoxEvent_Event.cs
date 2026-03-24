@@ -1,5 +1,5 @@
-﻿using AlthiraProducts.BuildingBlocks.Application.EventModel;
-using AlthiraProducts.Products.Application.Models.Persistence.Write;
+﻿using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.BuildingBlocks.Application.EventModel;
 
 namespace AlthiraProducts.Adapters.Outbox.Mappers;
 

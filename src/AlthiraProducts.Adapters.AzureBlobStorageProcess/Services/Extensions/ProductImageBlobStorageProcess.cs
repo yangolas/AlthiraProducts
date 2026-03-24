@@ -1,11 +1,11 @@
 ﻿using AlthiraProducts.Adapters.AzureBlobStorageProcess.Diagnostic;
+using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.AzureBlobSotageProcess;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.AzureBlobStorage;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.RepositoryWrite;
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
 using AlthiraProducts.BuildingBlocks.Application.Settings;
-using AlthiraProducts.Products.Application.Models.Persistence.Write;
-using AlthiraProducts.Products.Application.Ports.AzureBlobSotageProcess;
-using AlthiraProducts.Products.Application.Ports.AzureBlobStorage;
-using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

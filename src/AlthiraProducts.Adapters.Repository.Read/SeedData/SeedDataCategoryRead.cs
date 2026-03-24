@@ -1,5 +1,5 @@
 ﻿using AlthiraProducts.Adapters.Repository.Read.Context;
-using AlthiraProducts.Products.Application.Models.Persistence.Read;
+using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Read;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlthiraProducts.Adapters.Repository.Read.SeedData;

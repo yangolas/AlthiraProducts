@@ -1,8 +1,8 @@
 ﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.HostInfraestructure.Extension;
 using AlthiraProducts.Adapters.MessageBroker.Consumer.Services.Extensions;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.MessageBrokerConsumer;
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using AlthiraProducts.BuildingBlocks.Application.Settings;
-using AlthiraProducts.Products.Application.Ports.MessageBrokerConsumer;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

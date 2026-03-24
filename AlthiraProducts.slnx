@@ -1,11 +1,11 @@
 <Solution>
   <Folder Name="/1.BoundedContext/" />
   <Folder Name="/1.BoundedContext/Products/">
-    <Project Path="src/AlthiraProducts.Products.Application/AlthiraProducts.Products.Application.csproj" />
-    <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Products.Domain/AlthiraProducts.Products.Domain.csproj" />
+    <Project Path="src/AlthiraProducts.BoundedContext.Products.Application/AlthiraProducts.BoundedContext.Products.Application.csproj" />
+    <Project Path="src/AlthiraProducts.BoundedContext.Products.Domain/AlthiraProducts.BoundedContext.Products.Domain.csproj" />
   </Folder>
   <Folder Name="/1.BoundedContext/Products/tests/">
-    <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Products.Domain.Test/AlthiraProducts.Products.Domain.Test.csproj" Id="0d59458b-78c4-45e8-bff3-8647fbd966a2" />
+    <Project Path="src/AlthiraProducts.Test.Products.Domain/AlthiraProducts.Test.Products.Domain.csproj" />
   </Folder>
   <Folder Name="/Adapters/">
     <Project Path="src/AlthiraProducts.Adapters.AzureBlobStorage/AlthiraProducts.Adapters.AzureBlobStorage.csproj" />

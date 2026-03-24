@@ -1,20 +1,27 @@
-# ETAPA 1: Compilación (SDK)
+#1.- build (SDK)
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /src
+WORKDIR /app
 
-# 1. Copiamos TODO
-COPY . .
+#2.- copy by section comparing with intenal docker hash
+COPY AlthiraProducts.slnx ./
+COPY src/AlthiraProducts.Adapters.*/*.csproj ./src/
+COPY src/AlthiraProducts.BoundedContext.*/*.csproj ./src/
+COPY src/AlthiraProducts.BuildingBlocks.*/*.csproj ./src/
+COPY src/AlthiraProducts.Main*/*.csproj ./src/AlthiraProducts.Main/
+COPY src/AlthiraProducts.Test.*/*.csproj ./src/
 
-# 2. TRUCO: En lugar de restaurar la solución .slnx (que tiene rutas rotas),
-# restauramos directamente el proyecto principal. 
-# Esto hará que dotnet busque las dependencias por nombre, no por ruta de disco U:
-RUN dotnet restore "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj"
+# 2.- Restore nuggets and libraries for main proyect, check cache if it is downladed in previous versions
+RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
+    dotnet restore "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj"
 
-# 3. Publicamos el proyecto Main
-WORKDIR "/src/src/AlthiraProducts.Main"
+# 3.- Copy code source
+COPY src/ ./src/
+
+# 4. Publish Main Proyect
+WORKDIR "/app/src/AlthiraProducts.Main"
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false /p:ErrorOnDuplicatePublishOutputFiles=false
 
-# ETAPA 2: Ejecución
+# 5.- Execution
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .

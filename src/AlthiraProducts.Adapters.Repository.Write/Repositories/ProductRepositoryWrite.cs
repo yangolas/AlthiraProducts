@@ -1,6 +1,6 @@
 ﻿using AlthiraProducts.Adapters.Repository.Write.Context;
-using AlthiraProducts.Products.Application.Models.Persistence.Write;
-using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
+using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.RepositoryWrite;
 
 namespace AlthiraProducts.Adapters.Repository.Write.Repositories;
 

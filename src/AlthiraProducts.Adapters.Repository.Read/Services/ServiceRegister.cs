@@ -2,7 +2,6 @@
 using AlthiraProducts.Adapters.Repository.Read.SeedData;
 using AlthiraProducts.Adapters.Repository.Read.Settings;
 using AlthiraProducts.BuildingBlocks.Application.Ports.ServiceRegistration;
-using AlthiraProducts.Products.Application.Models.Persistence.Read;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

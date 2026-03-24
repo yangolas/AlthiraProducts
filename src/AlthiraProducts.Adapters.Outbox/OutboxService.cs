@@ -1,13 +1,13 @@
 ﻿using AlthiraProducts.Adapters.Outbox.Diagnostic.Telemetry;
 using AlthiraProducts.Adapters.Outbox.Mappers;
 using AlthiraProducts.Adapters.Outbox.Settings;
+using AlthiraProducts.BoundedContext.Products.Application.Models.Persistence.Write;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.RepositoryWrite;
 using AlthiraProducts.BuildingBlocks.Application.EventModel;
 using AlthiraProducts.BuildingBlocks.Application.Ports.MessageBrokerPublisher;
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using AlthiraProducts.BuildingBlocks.Application.Ports.Outbox;
 using AlthiraProducts.BuildingBlocks.Application.Ports.RepositoryWrite;
-using AlthiraProducts.Products.Application.Models.Persistence.Write;
-using AlthiraProducts.Products.Application.Ports.RepositoryWrite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;

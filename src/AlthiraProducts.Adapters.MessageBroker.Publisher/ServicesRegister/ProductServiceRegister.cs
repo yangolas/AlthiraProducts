@@ -1,8 +1,8 @@
 ﻿using AlthiraProducts.Adapters.MessageBroker.Consumer.Services.Extensions;
 using AlthiraProducts.Adapters.MessageBroker.Publisher.Services.Extenisons;
+using AlthiraProducts.BoundedContext.Products.Application.Ports.MessageBrokerPublisher;
 using AlthiraProducts.BuildingBlocks.Application.Ports.OpenTelemetry;
 using AlthiraProducts.BuildingBlocks.Application.Settings;
-using AlthiraProducts.Products.Application.Ports.MessageBrokerPublisher;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
