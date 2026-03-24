@@ -17,12 +17,9 @@ RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
 # 3.- Copy code source
 COPY src/ ./src/
 
-# 4. Publish Main Proyect
+# 4. Publish Main Proyecto
 WORKDIR "/app/src/AlthiraProducts.Main"
-RUN dotnet publish "AlthiraProducts.Main.csproj" -c Release -o /app/publish \
-    --no-restore \
-    /p:UseAppHost=false \
-    /p:CopyLocalLockFileAssemblies=true
+RUN dotnet publish "AlthiraProducts.Main.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false /p:CopyLocalLockFileAssemblies=true
 
 # 5.- Execution
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
