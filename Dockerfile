@@ -13,7 +13,7 @@ COPY src/AlthiraProducts.Test.*/*.csproj ./src/
 
 # 2.- Restore nuggets and libraries for main proyect, check cache if it is downladed in previous versions
 RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
-    dotnet restore "AlthiraProducts.slnx"
+    dotnet restore "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj"
 
 # 3.- Copy code source
 COPY src/ ./src/
