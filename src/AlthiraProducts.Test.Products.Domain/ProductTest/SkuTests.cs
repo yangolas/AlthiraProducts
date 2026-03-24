@@ -6,5 +6,6 @@ namespace AlthiraProducts.Products.Domain.Test.ProductTest
 {
     internal class SkuTests
     {
+
     }
 }
