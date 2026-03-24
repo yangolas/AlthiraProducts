@@ -25,10 +25,19 @@ RUN pwd
 RUN ls -R src/AlthiraProducts.Main
 RUN mkdir -p /app/publish
 
-# Usamos el asterisco para que encuentre el csproj esté donde esté en esa carpeta
-RUN dotnet publish "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false /p:CopyLocalLockFileAssemblies=true
+# 4. Publish Main Proyecto
+WORKDIR /app
+RUN mkdir -p /app/publish
 
-# --- EL CHIVATO ---
+# Apuntamos al archivo EXACTO que queremos (el que no tiene .Settings)
+RUN dotnet publish "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" \
+    -c Release \
+    -o /app/publish \
+    --no-restore \
+    /p:UseAppHost=false \
+    /p:CopyLocalLockFileAssemblies=true
+
+# Verificamos que ahora sí se han creado las DLLs de los 16 proyectos
 RUN ls -la /app/publish
 
 # 5.- Execution
