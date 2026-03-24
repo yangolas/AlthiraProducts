@@ -19,14 +19,15 @@ COPY src/ ./src/
 
 # 4. Publish Main Proyecto
 WORKDIR /app
+# Creamos la carpeta manualmente para que el ls no de error si algo falla
 RUN mkdir -p /app/publish
-RUN dotnet publish "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" \
-    -c Release \
-    -o /app/publish \
-    --no-restore \
-    /p:UseAppHost=false \
-    /p:CopyLocalLockFileAssemblies=true
-RUN ls -R /app/publish
+
+# Publicamos el proyecto Main (Todo en una línea para evitar errores de espacios)
+RUN dotnet publish "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false /p:CopyLocalLockFileAssemblies=true
+
+# --- EL CHIVATO ---
+# Usamos -la para ver permisos y tamaños también
+RUN ls -laR /app/publish
 
 # 5.- Execution
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
