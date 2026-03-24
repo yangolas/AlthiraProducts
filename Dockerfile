@@ -5,11 +5,10 @@ WORKDIR /app
 #2.- copy by section comparing with intenal docker hash
 COPY . .
 
-# 2.- Restore nuggets and libraries for main proyect, check cache if it is downladed in previous versions
-RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
-    dotnet restore "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj"
+# 3.- Restore nuggets and libraries for main proyect, check cache if it is downladed in previous versions
+RUN dotnet restore "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj"
 
-# 3. Publish Main Proyecto
+# 4. Publish Main Proyecto
 WORKDIR /app/src/AlthiraProducts.Main
 RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false /p:ErrorOnDuplicatePublishOutputFiles=false
 
