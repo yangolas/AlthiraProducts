@@ -19,6 +19,7 @@ COPY src/ ./src/
 
 # 4. Publish Main Proyecto
 WORKDIR "/app/src/AlthiraProducts.Main"
+RUN ls -R /app/publish
 RUN dotnet publish "AlthiraProducts.Main.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false /p:CopyLocalLockFileAssemblies=true
 
 # 5.- Execution
