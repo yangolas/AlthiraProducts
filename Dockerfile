@@ -7,7 +7,8 @@ COPY AlthiraProducts.slnx ./
 COPY src/AlthiraProducts.Adapters.*/*.csproj ./src/
 COPY src/AlthiraProducts.BoundedContext.*/*.csproj ./src/
 COPY src/AlthiraProducts.BuildingBlocks.*/*.csproj ./src/
-COPY src/AlthiraProducts.Main*/*.csproj ./src/AlthiraProducts.Main/
+COPY src/AlthiraProducts.Main/AlthiraProducts.Main.csproj ./src/AlthiraProducts.Main/
+COPY src/AlthiraProducts.Main.Settings/AlthiraProducts.Main.Settings.csproj ./src/
 COPY src/AlthiraProducts.Test.*/*.csproj ./src/
 
 # 2.- Restore nuggets and libraries for main proyect, check cache if it is downladed in previous versions
