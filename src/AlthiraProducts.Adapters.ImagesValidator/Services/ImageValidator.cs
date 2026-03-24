@@ -14,7 +14,7 @@ public class ImageValidator : IImageValidatorService
         "image/gif",
         "image/webp"
     ];
-
+     
     public async Task ValidateImagesAsync(IEnumerable<IFormFile> images)
     {
         if (images == null)
