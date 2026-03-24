@@ -22,7 +22,6 @@ WORKDIR "/app/src/AlthiraProducts.Main"
 RUN dotnet publish "AlthiraProducts.Main.csproj" -c Release -o /app/publish \
     --no-restore \
     /p:UseAppHost=false \
-    /p:PublishSelfContained=false \
     /p:CopyLocalLockFileAssemblies=true
 
 # 5.- Execution
