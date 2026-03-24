@@ -19,7 +19,7 @@ COPY src/ ./src/
 
 # 4. Publish Main Proyect
 WORKDIR "/app/src/AlthiraProducts.Main"
-RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false /p:ErrorOnDuplicatePublishOutputFiles=false
+RUN dotnet publish "AlthiraProducts.Main.csproj" -c Release -o /app/publish /p:UseAppHost=false /p:ErrorOnDuplicatePublishOutputFiles=false
 
 # 5.- Execution
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
