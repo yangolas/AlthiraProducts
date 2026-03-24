@@ -26,7 +26,7 @@ RUN ls -R src/AlthiraProducts.Main
 RUN mkdir -p /app/publish
 
 # Usamos el asterisco para que encuentre el csproj esté donde esté en esa carpeta
-RUN dotnet publish ./src/AlthiraProducts.Main/*.csproj -c Release -o /app/publish --no-restore /p:UseAppHost=false /p:CopyLocalLockFileAssemblies=true
+RUN dotnet publish "src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false /p:CopyLocalLockFileAssemblies=true
 
 # --- EL CHIVATO ---
 RUN ls -la /app/publish
