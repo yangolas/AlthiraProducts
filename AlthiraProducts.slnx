@@ -22,6 +22,6 @@
   <Folder Name="/BuildingBlocks/">
     <Project Path="src/AlthiraProducts.BuildingBlocks.Application/AlthiraProducts.BuildingBlocks.Application.csproj" />
   </Folder>
-  <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Main.Settings/AlthiraProducts.Main.Settings.csproj" Id="9633f81a-feb0-4573-b4bc-f892fe51a950" />
-  <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" Id="5564861a-9dfe-4bfc-9524-be136019f5cd" />
+  <Project Path="src/AlthiraProducts.Main.Settings/AlthiraProducts.Main.Settings.csproj" />
+  <Project Path="src/AlthiraProducts.Main/AlthiraProducts.Main.csproj" />
 </Solution>
