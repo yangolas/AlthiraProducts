@@ -3,7 +3,7 @@ using AlthiraProducts.Products.Application.Models.Persistence.Read;
 
 namespace AlthiraProducts.Products.Application.Ports.RepositoryRead;
 
-public interface IProductRepositoryRead : ITransient
+public interface IProductRepositoryRead : IScoped
 {
     Task UpsertWithVersionAsync(ProductReadModel productReadModel);
 

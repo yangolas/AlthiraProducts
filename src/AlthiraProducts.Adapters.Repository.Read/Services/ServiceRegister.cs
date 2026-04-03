@@ -24,7 +24,7 @@ public static class ServiceRegister
         serviceCollection.Scan(scan =>
             scan.FromAssemblies(assembly)
             .AddClasses(clases =>
-                clases.AssignableToAny(typeof(ITransient))
+                clases.AssignableToAny(typeof(IScoped))
             )
             .AsImplementedInterfaces()
             .WithTransientLifetime()
