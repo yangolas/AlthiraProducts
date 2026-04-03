@@ -15,9 +15,9 @@
     <Project Path="src/AlthiraProducts.Adapters.MessageBroker.Publisher/AlthiraProducts.Adapters.MessageBroker.Publisher.csproj" Id="3fc8d9e5-a3bd-479b-8121-c3a4c54044a2" />
     <Project Path="src/AlthiraProducts.Adapters.OpenTelemetry/AlthiraProducts.Adapters.OpenTelemetry.csproj" Id="b7b26a60-e83e-49d5-9c5f-ee6bea5fe65c" />
     <Project Path="src/AlthiraProducts.Adapters.Outbox/AlthiraProducts.Adapters.Outbox.csproj" />
-    <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Adapters.Repository.Read/AlthiraProducts.Adapters.Repository.Read.csproj" Id="9bc2d501-21ee-4ea5-953b-f0c52c28e3e2" />
-    <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Adapters.Repository.Write/AlthiraProducts.Adapters.Repository.Write.csproj" Id="a8b52a68-7aa4-4bf2-ba95-f858f8572aa6" />
-    <Project Path="U:/Proyectos/Althira/Backend/Products/src/AlthiraProducts.Adapters.WebApi/AlthiraProducts.Adapters.WebApi.csproj" Id="a9b83696-c964-4d14-b826-58710b7906f7" />
+    <Project Path="src/AlthiraProducts.Adapters.Repository.Read/AlthiraProducts.Adapters.Repository.Read.csproj" />
+    <Project Path="src/AlthiraProducts.Adapters.Repository.Write/AlthiraProducts.Adapters.Repository.Write.csproj" />
+    <Project Path="src/AlthiraProducts.Adapters.WebApi/AlthiraProducts.Adapters.WebApi.csproj" />
   </Folder>
   <Folder Name="/BuildingBlocks/">
     <Project Path="src/AlthiraProducts.BuildingBlocks.Application/AlthiraProducts.BuildingBlocks.Application.csproj" />
